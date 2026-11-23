@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Práctica 2 — Tiempos de reacción</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="cabecera">
+    <p class="institucion">Universidad Bicentenaria de Aragua</p>
+    <h1>Práctica 2 — Tiempos de reacción</h1>
+    <p class="subtitulo">Modalidad visual y auditiva · Actividad Sumativa Nº 4</p>
+    <p class="autor">Teofilo Angulo · 22 de noviembre de 2026</p>
+    <a class="volver" href="index.html">← Volver al índice</a>
+  </header>
+
+  <nav class="nav" aria-label="Navegación de la sección">
+    <a href="#fundamentos">Fundamentos</a>
+    <a href="#metodo">Diseño y muestra</a>
+    <a href="#datos">Datos y gráfico</a>
+    <a href="#discusion">Discusión</a>
+  </nav>
+
+  <main class="contenido">
+
+    <section id="fundamentos">
+      <h2>1. Fundamentos neurofisiológicos de las vías aferentes/eferentes</h2>
+      <!-- INICIO_TEXTO:m2_fundamentos -->
+<p>Para una tarea de tiempos de reacción tras estímulos auditivos y visuales, deben entenderse los procesos completos de cada índole.</p>
+<p>En las reacciones tras estímulos auditivos, se entiende que las ondas sonoras entran por el oído interno, produciendo vibración en el tímpano y en los huesos de la cadena osicular, llegando al oído interno, donde las células ciliadas del órgano de Corti procesan el movimiento y lo convierten en una señal eléctrica.</p>
+<p>Posteriormente, la señal viaja a través de la rama coclear del octavo par craneal, el par craneal vestibulococlear; el impulso sube haciendo sinapsis en los núcleos cocleares, el complejo olivar superior y el colículo inferior.</p>
+<p>Finalizando el proceso aferente, la señal pasa por el cuerpo geniculado medial del tálamo y llega a la corteza auditiva primaria en el lóbulo temporal, estructura que identifica el sonido. Si este es el proceso dado, la información pasa a zonas como el área de Wernicke y la corteza prefrontal.</p>
+<p>Sin embargo, si el sonido es muy fuerte o repentino, el colículo inferior y la formación reticular envían una señal de alarma inmediata antes de la llegada de la señal eléctrica, lo que provoca un reflejo motor de sobresalto o de movimiento para observar de dónde proviene el sonido, a través de la médula espinal y los nervios motores.</p>
+<p>En cuanto a las vías nerviosas en la índole de estímulos visuales, el recorrido comúnmente inicia en la retina, donde el estímulo visual viaja por el nervio óptico, el quiasma óptico y el tracto óptico hasta hacer relevo en el cuerpo geniculado lateral del tálamo.</p>
+<p>Posteriormente, la señal pasa por las radiaciones ópticas hacia la corteza visual en el lóbulo occipital y se integra en el giro angular y el área de Wernicke para comprender el texto. Tras esta interpretación, se activa el sistema límbico para generar la reacción emocional y la corteza prefrontal toma la decisión de actuar, enviando la orden a la corteza motora primaria bajo la regulación del cerebelo y los ganglios basales.</p>
+<p>Finalmente, el impulso desciende por el tracto corticoespinal, cruza en la decusación de las pirámides y llega al asta anterior de la médula espinal, desde donde sale por el nervio periférico hacia la unión neuromuscular para ejecutar el movimiento.</p>
+<!-- FIN_TEXTO:m2_fundamentos -->
+    </section>
+
+    <section id="metodo">
+      <h2>2. Diseño metodológico y muestra</h2>
+      <!-- INICIO_TEXTO:m2_metodo -->
+<p>Para el segundo módulo, se ocupó una instancia experimental construida en la herramienta gráfica Psychopy Builder, herramienta digital especializada en la experimentación psicológica basada en estímulos, con una muestra N = 1, donde el participante realizó 20 ensayos de forma aleatorizada, constando de 10 estímulos no variables visuales y 10 estímulos auditivos no variables. Cada vez que escuchase el estímulo sonoro o viese el estímulo textual, debía presionar la tecla “Espacio” en el teclado para saltar al siguiente estímulo aleatorio hasta completar los 20 ensayos correspondientes.</p>
+<p>La herramienta guarda múltiples datos de forma automática una vez finalizado el experimento, llegando al fin de la secuencia, y los guarda en archivos de hojas de cálculo, que suelen contener muchas variables no necesarias para el estudio, pero que el programa igual registra. Para esto, se ocupó un programa de tipo “Script” de autoría propia construido en el lenguaje de programación Python 3 y documentado por la inteligencia artificial “Opencode”, especializada en programación, para eliminar las variables innecesarias y anomalías, permaneciendo los datos relevantes previamente obtenidos. En la entrega de esta actividad, estarán presentes tanto la hoja de cálculo previa a la limpieza a través de scripts, el script ocupado para la limpieza de datos y la hoja de cálculo “Limpia” obtenida posteriormente.</p>
+<!-- FIN_TEXTO:m2_metodo -->
+
+      <table class="datos">
+        <caption>Muestra y roles</caption>
+        <thead><tr><th>Protocolo</th><th>Participante</th><th>Experimentador</th><th>n</th><th>Diseño</th></tr></thead>
+        <tbody>
+          <tr><td>P2</td><td>Participante_01</td><td>Estudiante</td><td>1</td><td>20 ensayos · 10 por condición · 19 válidos</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="datos">
+      <h2>3. Tablas de datos cuantitativos, representación gráfica y evidencia fotográfica original</h2>
+
+      <figure>
+        <img src="assets/p2_dispersion.png" alt="Dispersión de los tiempos de reacción por ensayo y condición">
+        <figcaption>Figura 2. RT de los 19 ensayos válidos. Líneas de referencia: media por condición.</figcaption>
+      </figure>
+
+      <table class="datos">
+        <caption>Resumen P2 (copia filtrada 150-1000 ms)</caption>
+        <thead><tr><th>Condición</th><th>n</th><th>Media (ms)</th><th>Mediana (ms)</th><th>DE (ms)</th><th>Mín</th><th>Máx</th></tr></thead>
+        <tbody>
+          <tr><td>Visual («¡YA!»)</td><td>10</td><td>446,0</td><td>430,5</td><td>127,4</td><td>279</td><td>740</td></tr>
+          <tr><td>Auditivo (tono)</td><td>9</td><td>503,2</td><td>360,0</td><td>218,5</td><td>291</td><td>910</td></tr>
+          <tr><td>Diferencia (A − V)</td><td>—</td><td>+57,2</td><td>−70,5</td><td>—</td><td>—</td><td>—</td></tr>
+        </tbody>
+      </table>
+
+      <details>
+        <summary>Registro de los 19 ensayos válidos</summary>
+        <table class="datos">
+          <thead><tr><th>Ensayo</th><th>Condición</th><th>RT (ms)</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Auditivo</td><td>291</td></tr>
+            <tr><td>2</td><td>Visual</td><td>351</td></tr>
+            <tr><td>3</td><td>Auditivo</td><td>654</td></tr>
+            <tr><td>4</td><td>Visual</td><td>421</td></tr>
+            <tr><td>5</td><td>Auditivo</td><td>910</td></tr>
+            <tr><td>6</td><td>Visual</td><td>534</td></tr>
+            <tr><td>7</td><td>Visual</td><td>440</td></tr>
+            <tr><td>8</td><td>Auditivo</td><td>360</td></tr>
+            <tr><td>9</td><td>Visual</td><td>495</td></tr>
+            <tr><td>10</td><td>Auditivo</td><td>350</td></tr>
+            <tr><td>11</td><td>Visual</td><td>393</td></tr>
+            <tr><td>12</td><td>Auditivo</td><td>669</td></tr>
+            <tr><td>13</td><td>Visual</td><td>351</td></tr>
+            <tr><td>14</td><td>Visual</td><td>279</td></tr>
+            <tr><td>15</td><td>Auditivo</td><td>318</td></tr>
+            <tr><td>16</td><td>Visual</td><td>456</td></tr>
+            <tr><td>17</td><td>Auditivo</td><td>634</td></tr>
+            <tr><td>18</td><td>Auditivo</td><td>343</td></tr>
+            <tr><td>19</td><td>Visual</td><td>740</td></tr>
+          </tbody>
+        </table>
+      </details>
+
+      <p class="nota">Procesamiento: el CSV crudo se conservó sin modificar. En una copia se excluyeron las filas de inicio/despedida y un ensayo de 1151 ms (&gt;1000 ms). La etiqueta <code>piloting=True</code> aparece solo en la fila de metadatos y no afecta los ensayos.</p>
+
+    </section>
+
+    <section id="discusion">
+      <h2>4. Discusión de resultados fundada en los principios de procesamiento sensorial y plasticidad neuronal</h2>
+      <!-- INICIO_TEXTO:m2_discusion -->
+<p>Teniendo en cuenta que el promedio de tiempo de respuesta visual es menor, siendo un promedio de 446,00 milisegundos en 10 ensayos válidos en comparación con el promedio de 503,22 en 9 ensayos válidos de los estímulos auditivos, con una anomalía de más de 1000 milisegundos en un ensayo auditivo, se postula un resultado anómalo, dado que en la mayoría de pruebas aplicadas a muestras y documentadas, los procesos de reacción auditivos suelen ser más rápidos que los visuales. Esto se sustenta teniendo en cuenta que la información auditiva se procesa en una vía más corta, y que analizar estímulos visuales requiere procesar información como color, profundidad, distancia y movimiento.</p>
+<!-- FIN_TEXTO:m2_discusion -->
+      <p class="descargas"><a href="anexo_p2.html">Ver anexo con el código del experimento, el código de limpieza y las tablas antes y después de la limpieza</a></p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Actividad Sumativa Nº 4 · Neurociencias · Teofilo Angulo · <a href="index.html">Índice</a></p>
+  </footer>
+
+</body>
+</html>

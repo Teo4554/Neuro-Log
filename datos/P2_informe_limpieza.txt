@@ -1,0 +1,48 @@
+INFORME DE LIMPIEZA - PROTOCOLO 2 (tiempos de reaccion)
+============================================================
+Archivo original (NO modificado): datos/P2_crudo.csv
+Archivo limpio generado:          datos/P2_limpio.csv
+
+CRITERIO: conservar solo ensayos audio/texto con 150 <= RT <= 1000 ms.
+
+FILAS DEL ARCHIVO ORIGINAL: 22
+  Ensayos conservados: 19
+  Filas descartadas:   3
+
+DESCARTES (numero de linea del CSV original):
+  linea 2: fila de inicio/despedida (no es ensayo)
+  linea 10: RT 1151.1 ms (mayor a 1000 ms)
+  linea 23: fila de inicio/despedida (no es ensayo)
+
+TABLA LISTA PARA PEGAR EN EL PORTAFOLIO
+  ensayo | condicion | RT (ms)
+       1 |     audio |    291
+       2 |     texto |    351
+       3 |     audio |    654
+       4 |     texto |    421
+       5 |     audio |    910
+       6 |     texto |    534
+       7 |     texto |    440
+       8 |     audio |    360
+       9 |     texto |    495
+      10 |     audio |    350
+      11 |     texto |    393
+      12 |     audio |    669
+      13 |     texto |    351
+      14 |     texto |    279
+      15 |     audio |    318
+      16 |     texto |    456
+      17 |     audio |    634
+      18 |     audio |    343
+      19 |     texto |    740
+
+RESUMEN CON LA LIMPIEZA APLICADA (usar este en el informe):
+  audio: n=9, media=503.3 ms, mediana=360.1 ms, DE=218.3 ms
+  texto: n=10, media=445.9 ms, mediana=430.5 ms, DE=127.4 ms
+
+RESUMEN SIN FILTRAR (solo referencia; NO usar en el informe):
+  audio: n=10, media=568.1 ms, mediana=497.1 ms, DE=290.4 ms
+  texto: n=10, media=445.9 ms, mediana=430.5 ms, DE=127.4 ms
+
+Nota: la etiqueta 'piloting=True' del CSV original aparece solo en la
+fila de metadatos de inicio y no afecta a los ensayos conservados.

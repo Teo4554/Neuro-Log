@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Índice — Actividad Sumativa Nº 4</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="indice">
+
+  <header class="cabecera">
+    <p class="institucion">Universidad Bicentenaria de Aragua</p>
+    <h1>Neuroplasticidad aplicada</h1>
+    <p class="subtitulo">Actividad Sumativa Nº 4 — Unidad 4</p>
+    <p class="autor">Teofilo Angulo · 22 de noviembre de 2026</p>
+  </header>
+
+  <main class="menu">
+    <p class="instruccion">Cada enlace abre una pestaña nueva.</p>
+
+    <a class="tarjeta" href="modulo1.html" target="_blank" rel="noopener">
+      <span class="numero">01</span>
+      <span class="titulo">Práctica 1 — Discriminación táctil</span>
+      <span class="detalle">Fundamentos · Muestra · Datos y gráfico · Discusión</span>
+    </a>
+
+    <a class="tarjeta" href="modulo2.html" target="_blank" rel="noopener">
+      <span class="numero">02</span>
+      <span class="titulo">Práctica 2 — Tiempos de reacción</span>
+      <span class="detalle">Fundamentos · Muestra · Datos y gráfico · Discusión</span>
+    </a>
+
+    <a class="tarjeta" href="modulo3.html" target="_blank" rel="noopener">
+      <span class="numero">03</span>
+      <span class="titulo">Práctica 3 — Postimagen por flash</span>
+      <span class="detalle">Fundamentos · Muestra · Datos y gráfico · Discusión</span>
+    </a>
+
+    <a class="tarjeta cierre" href="conclusiones.html" target="_blank" rel="noopener">
+      <span class="numero">04</span>
+      <span class="titulo">Conclusiones integradoras</span>
+      <span class="detalle">Neuroplasticidad aplicada</span>
+    </a>
+
+    <div class="anexo-indice">
+      <p class="etiqueta">Anexo</p>
+      <a href="anexo_p2.html" target="_blank" rel="noopener">
+        Código y tablas del Protocolo 2
+        <span class="detalle">Experimento · Limpieza · Tablas antes y después</span>
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    <p>Actividad Sumativa Nº 4 · Neurociencias · Teofilo Angulo</p>
+  </footer>
+
+  <script>
+    // En la vista previa local (file://) el visor bloquea las pestañas nuevas:
+    // los enlaces navegan en la misma pestaña. En Vercel (https:) se abre una pestaña nueva.
+    if (location.protocol === 'file:') {
+      document.querySelectorAll('a[target="_blank"]').forEach(function (a) {
+        a.removeAttribute('target');
+      });
+    }
+  </script>
+
+</body>
+</html>

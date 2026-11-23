@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anexo P2 — Código y tablas — Neurociencias</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="cabecera">
+    <p class="institucion">Universidad Bicentenaria de Aragua</p>
+    <h1>Anexo del Protocolo 2</h1>
+    <p class="subtitulo">Código del experimento, limpieza y tablas comparadas · Actividad Sumativa Nº 4</p>
+    <p class="autor">Teofilo Angulo · 22 de noviembre de 2026</p>
+    <a class="volver" href="modulo2.html">← Volver al módulo 2</a>
+  </header>
+
+  <nav class="nav" aria-label="Navegación del anexo">
+    <a href="#experimento">Experimento</a>
+    <a href="#limpieza">Limpieza</a>
+    <a href="#antes">Tabla previa</a>
+    <a href="#despues">Tabla posterior</a>
+    <a href="#informe">Informe</a>
+    <a href="#descargas">Descargas</a>
+  </nav>
+
+  <main class="contenido">
+
+    <section id="intro">
+      <h2>Anexo de código y tablas del Protocolo 2</h2>
+      <p>Este anexo reúne el código que generó el experimento de tiempos de reacción, el programa que limpió los datos y las tablas antes y después de esa limpieza. Está pensado para leer y comparar el procedimiento completo. Los archivos también se pueden descargar al final de la página.</p>
+      <p class="nota">El CSV original se conserva sin modificar en la versión privada. Acá se publica una copia anonimizada: solo cambió el identificador del participante, no los valores de tiempo de reacción. La limpieza conservó 19 de 22 filas y descartó 3. El código se muestra con su sintaxis original, tal como se ejecutó.</p>
+    </section>
+
+    <section id="experimento">
+      <h2>1. Experimento</h2>
+      <p>Archivo <code>MODULO2.py</code>, generado por PsychoPy a partir del diseño <code>MODULO2.psyexp</code>. Es el programa que presentó los estímulos visuales y auditivos y registró las respuestas.</p>
+      <details>
+        <summary>Ver código del experimento, 1127 líneas</summary>
+        <div class="codigo"><pre><code>#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+&quot;&quot;&quot;
+This experiment was created using PsychoPy3 Experiment Builder (v2026.2.4),
+    on Sun 22 Nov 2026 06:23:34 PM -04
+If you publish work using this script the most relevant publication is:
+
+    Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
+        PsychoPy2: Experiments in behavior made easy Behav Res 51: 195. 
+        https://doi.org/10.3758/s13428-018-01193-y
+
+&quot;&quot;&quot;
+
+# --- Import packages ---
+from psychopy import locale_setup
+from psychopy import prefs
+from psychopy import plugins
+plugins.activatePlugins()
+from psychopy import sound, gui, visual, core, data, event, logging, clock, colors, layout, hardware
+from psychopy.tools import environmenttools
+from psychopy.constants import (
+    NOT_STARTED, STARTED, PLAYING, PAUSED, STOPPED, STOPPING, FINISHED, PRESSED, 
+    RELEASED, FOREVER, priority
+)
+
+import numpy as np  # whole numpy lib is available, prepend &#x27;np.&#x27;
+from numpy import (sin, cos, tan, log, log10, pi, average,
+                   sqrt, std, deg2rad, rad2deg, linspace, asarray)
+from numpy.random import random, randint, normal, shuffle, choice as randchoice
+import os  # handy system and path functions
+import sys  # to get file system encoding
+
+from psychopy.hardware import keyboard
+import psychopy.hardware.speaker
+
+# set audio backend
+sound.Sound.backend = prefs.hardware[&#x27;audioLib&#x27;]
+hardware.speaker.SpeakerDevice.backend = prefs.hardware[&#x27;audioLib&#x27;]
+# --- Setup global variables (available in all functions) ---
+# create a device manager to handle hardware (keyboards, mice, mirophones, speakers, etc.)
+deviceManager = hardware.DeviceManager()
+# ensure that relative paths start from the same directory as this script
+_thisDir = os.path.dirname(os.path.abspath(__file__))
+# store info about the experiment session
+psychopyVersion = &#x27;2026.2.4&#x27;
+expName = &#x27;MODULO2&#x27;  # from the Builder filename that created this script
+expVersion = &#x27;&#x27;
+# a list of functions to run when the experiment ends (starts off blank)
+runAtExit = []
+# information about this experiment
+expInfo = {
+    &#x27;participant&#x27;: f&quot;{randint(0, 999999):06.0f}&quot;,
+    &#x27;session&#x27;: &#x27;001&#x27;,
+    &#x27;date|hid&#x27;: data.getDateStr(),
+    &#x27;expName|hid&#x27;: expName,
+    &#x27;expVersion|hid&#x27;: expVersion,
+    &#x27;psychopyVersion|hid&#x27;: psychopyVersion,
+}
+
+# --- Define some variables which will change depending on pilot mode ---
+&#x27;&#x27;&#x27;
+To run in pilot mode, either use the run/pilot toggle in Builder, Coder and Runner, 
+or run the experiment with `--pilot` as an argument. To change what pilot 
+#mode does, check out the &#x27;Pilot mode&#x27; tab in preferences.
+&#x27;&#x27;&#x27;
+# work out from system args whether we are running in pilot mode
+PILOTING = core.setPilotModeFromArgs()
+# start off with values from experiment settings
+_fullScr = True
+_winSize = (1024, 768)
+# if in pilot mode, apply overrides according to preferences
+if PILOTING:
+    # force windowed mode
+    if prefs.piloting[&#x27;forceWindowed&#x27;]:
+        _fullScr = False
+        # set window size
+        _winSize = prefs.piloting[&#x27;forcedWindowSize&#x27;]
+    # replace default participant ID
+    if prefs.piloting[&#x27;replaceParticipantID&#x27;]:
+        expInfo[&#x27;participant&#x27;] = &#x27;pilot&#x27;
+
+def showExpInfoDlg(expInfo):
+    &quot;&quot;&quot;
+    Show participant info dialog.
+    Parameters
+    ==========
+    expInfo : dict
+        Information about this experiment.
+    
+    Returns
+    ==========
+    dict
+        Information about this experiment.
+    &quot;&quot;&quot;
+    # show participant info dialog
+    dlg = gui.DlgFromDict(
+        dictionary=expInfo, sortKeys=False, title=expName, alwaysOnTop=True
+    )
+    if dlg.OK == False:
+        core.quit()  # user pressed cancel
+    # return expInfo
+    return expInfo
+
+
+def setupData(expInfo, dataDir=None):
+    &quot;&quot;&quot;
+    Make an ExperimentHandler to handle trials and saving.
+    
+    Parameters
+    ==========
+    expInfo : dict
+        Information about this experiment, created by the `setupExpInfo` function.
+    dataDir : Path, str or None
+        Folder to save the data to, leave as None to create a folder in the current directory.    
+    Returns
+    ==========
+    psychopy.data.ExperimentHandler
+        Handler object for this experiment, contains the data to save and information about 
+        where to save it to.
+    &quot;&quot;&quot;
+    # remove dialog-specific syntax from expInfo
+    for key, val in expInfo.copy().items():
+        newKey, _ = data.utils.parsePipeSyntax(key)
+        expInfo[newKey] = expInfo.pop(key)
+    
+    # data file name stem = absolute path + name; later add .psyexp, .csv, .log, etc
+    if dataDir is None:
+        dataDir = _thisDir
+    filename = &#x27;data/&#x27; + expInfo[&#x27;participant&#x27;] + &#x27;_&#x27; + expName + &#x27;_&#x27; + expInfo[&#x27;date&#x27;]
+    # make sure filename is relative to dataDir
+    if os.path.isabs(filename):
+        dataDir = os.path.commonprefix([dataDir, filename])
+        filename = os.path.relpath(filename, dataDir)
+    
+    # an ExperimentHandler isn&#x27;t essential but helps with data saving
+    thisExp = data.ExperimentHandler(
+        name=expName, version=expVersion,
+        extraInfo=expInfo, runtimeInfo=None,
+        originPath=&#x27;datos/MODULO2.py&#x27;,
+        savePickle=True, saveWideText=True,
+        dataFileName=dataDir + os.sep + filename, sortColumns=&#x27;time&#x27;
+    )
+    # store pilot mode in data file
+    thisExp.addData(&#x27;piloting&#x27;, PILOTING, priority=priority.LOW)
+    thisExp.setPriority(&#x27;thisRow.t&#x27;, priority.CRITICAL)
+    thisExp.setPriority(&#x27;expName&#x27;, priority.LOW)
+    # return experiment handler
+    return thisExp
+
+
+def setupLogging(filename):
+    &quot;&quot;&quot;
+    Setup a log file and tell it what level to log at.
+    
+    Parameters
+    ==========
+    filename : str or pathlib.Path
+        Filename to save log file and data files as, doesn&#x27;t need an extension.
+    
+    Returns
+    ==========
+    psychopy.logging.LogFile
+        Text stream to receive inputs from the logging system.
+    &quot;&quot;&quot;
+    # set how much information should be printed to the console / app
+    if PILOTING:
+        logging.console.setLevel(
+            prefs.piloting[&#x27;pilotConsoleLoggingLevel&#x27;]
+        )
+    else:
+        logging.console.setLevel(&#x27;warning&#x27;)
+    # save a log file for detail verbose info
+    logFile = logging.LogFile(filename+&#x27;.log&#x27;)
+    if PILOTING:
+        logFile.setLevel(
+            prefs.piloting[&#x27;pilotLoggingLevel&#x27;]
+        )
+    else:
+        logFile.setLevel(
+            logging.getLevel(&#x27;info&#x27;)
+        )
+    
+    return logFile
+
+
+def setupWindow(expInfo=None, win=None):
+    &quot;&quot;&quot;
+    Setup the Window
+    
+    Parameters
+    ==========
+    expInfo : dict
+        Information about this experiment, created by the `setupExpInfo` function.
+    win : psychopy.visual.Window
+        Window to setup - leave as None to create a new window.
+    
+    Returns
+    ==========
+    psychopy.visual.Window
+        Window in which to run this experiment.
+    &quot;&quot;&quot;
+    if PILOTING:
+        logging.debug(&#x27;Fullscreen settings ignored as running in pilot mode.&#x27;)
+    
+    if win is None:
+        # if not given a window to setup, make one
+        win = visual.Window(
+            size=_winSize, fullscr=_fullScr, screen=0,
+            winType=&#x27;pyglet&#x27;, allowGUI=False, allowStencil=False,
+            monitor=&#x27;testMonitor&#x27;, color=[0,0,0], colorSpace=&#x27;rgb&#x27;,
+            backgroundImage=&#x27;&#x27;, backgroundFit=&#x27;none&#x27;,
+            blendMode=&#x27;avg&#x27;, useFBO=True,
+            units=&#x27;height&#x27;,
+            checkTiming=False  # we&#x27;re going to do this ourselves in a moment
+        )
+    else:
+        # if we have a window, just set the attributes which are safe to set
+        win.color = [0,0,0]
+        win.colorSpace = &#x27;rgb&#x27;
+        win.backgroundImage = &#x27;&#x27;
+        win.backgroundFit = &#x27;none&#x27;
+        win.units = &#x27;height&#x27;
+    if expInfo is not None:
+        # get/measure frame rate if not already in expInfo
+        if win._monitorFrameRate is None:
+            win._monitorFrameRate = win.getActualFrameRate(infoMsg=&#x27;Attempting to measure frame rate of screen, please wait...&#x27;)
+        expInfo[&#x27;frameRate&#x27;] = win._monitorFrameRate
+    win.hideMessage()
+    if PILOTING:
+        # show a visual indicator if we&#x27;re in piloting mode
+        if prefs.piloting[&#x27;showPilotingIndicator&#x27;]:
+            win.showPilotingIndicator()
+        # always show the mouse in piloting mode
+        if prefs.piloting[&#x27;forceMouseVisible&#x27;]:
+            win.mouseVisible = True
+    
+    return win
+
+
+def setupDevices(expInfo, thisExp, win):
+    &quot;&quot;&quot;
+    Setup whatever devices are available (mouse, keyboard, speaker, eyetracker, etc.) and add them to 
+    the device manager (deviceManager)
+    
+    Parameters
+    ==========
+    expInfo : dict
+        Information about this experiment, created by the `setupExpInfo` function.
+    thisExp : psychopy.data.ExperimentHandler
+        Handler object for this experiment, contains the data to save and information about 
+        where to save it to.
+    win : psychopy.visual.Window
+        Window in which to run this experiment.
+    Returns
+    ==========
+    bool
+        True if completed successfully.
+    &quot;&quot;&quot;
+    # --- Setup input devices ---
+    ioConfig = {}
+    ioSession = ioServer = eyetracker = None
+    
+    # store ioServer object in the device manager
+    deviceManager.ioServer = ioServer
+    
+    # create a default keyboard (e.g. to check for escape)
+    if deviceManager.getDevice(&#x27;defaultKeyboard&#x27;) is None:
+        deviceManager.addDevice(
+            deviceClass=&#x27;keyboard&#x27;, deviceName=&#x27;defaultKeyboard&#x27;, backend=&#x27;ptb&#x27;
+        )
+    # return True if completed successfully
+    return True
+
+def pauseExperiment(thisExp, win=None, timers=[], currentRoutine=None):
+    &quot;&quot;&quot;
+    Pause this experiment, preventing the flow from advancing to the next routine until resumed.
+    
+    Parameters
+    ==========
+    thisExp : psychopy.data.ExperimentHandler
+        Handler object for this experiment, contains the data to save and information about 
+        where to save it to.
+    win : psychopy.visual.Window
+        Window for this experiment.
+    timers : list, tuple
+        List of timers to reset once pausing is finished.
+    currentRoutine : psychopy.data.Routine
+        Current Routine we are in at time of pausing, if any. This object tells PsychoPy what Components to pause/play/dispatch.
+    &quot;&quot;&quot;
+    # if we are not paused, do nothing
+    if thisExp.status != PAUSED:
+        return
+    
+    # start a timer to figure out how long we&#x27;re paused for
+    pauseTimer = core.Clock()
+    # pause any playback components
+    if currentRoutine is not None:
+        for comp in currentRoutine.getPlaybackComponents():
+            comp.pause()
+    # make sure we have a keyboard
+    defaultKeyboard = deviceManager.getDevice(&#x27;defaultKeyboard&#x27;)
+    if defaultKeyboard is None:
+        defaultKeyboard = deviceManager.addKeyboard(
+            deviceClass=&#x27;keyboard&#x27;,
+            deviceName=&#x27;defaultKeyboard&#x27;,
+            backend=&#x27;PsychToolbox&#x27;,
+        )
+    # run a while loop while we wait to unpause
+    while thisExp.status == PAUSED:
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=[&#x27;escape&#x27;]):
+            endExperiment(thisExp, win=win)
+        # dispatch messages on response components
+        if currentRoutine is not None:
+            for comp in currentRoutine.getDispatchComponents():
+                comp.device.dispatchMessages()
+        # sleep 1ms so other threads can execute
+        clock.time.sleep(0.001)
+    # if stop was requested while paused, quit
+    if thisExp.status == FINISHED:
+        endExperiment(thisExp, win=win)
+    # resume any playback components
+    if currentRoutine is not None:
+        for comp in currentRoutine.getPlaybackComponents():
+            comp.play()
+    # reset any timers
+    for timer in timers:
+        timer.addTime(-pauseTimer.getTime())
+
+
+def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
+    &quot;&quot;&quot;
+    Run the experiment flow.
+    
+    Parameters
+    ==========
+    expInfo : dict
+        Information about this experiment, created by the `setupExpInfo` function.
+    thisExp : psychopy.data.ExperimentHandler
+        Handler object for this experiment, contains the data to save and information about 
+        where to save it to.
+    psychopy.visual.Window
+        Window in which to run this experiment.
+    globalClock : psychopy.core.clock.Clock or None
+        Clock to get global time from - supply None to make a new one.
+    thisSession : psychopy.session.Session or None
+        Handle of the Session object this experiment is being run from, if any.
+    &quot;&quot;&quot;
+    # mark experiment as started
+    thisExp.status = STARTED
+    # update experiment info
+    expInfo[&#x27;date&#x27;] = data.getDateStr()
+    expInfo[&#x27;expName&#x27;] = expName
+    expInfo[&#x27;expVersion&#x27;] = expVersion
+    expInfo[&#x27;psychopyVersion&#x27;] = psychopyVersion
+    # make sure window is set to foreground to prevent losing focus
+    win.winHandle.activate()
+    # make sure variables created by exec are available globally
+    exec = environmenttools.setExecEnvironment(globals())
+    # get device handles from dict of input devices
+    ioServer = deviceManager.ioServer
+    # get/create a default keyboard (e.g. to check for escape)
+    defaultKeyboard = deviceManager.getDevice(&#x27;defaultKeyboard&#x27;)
+    if defaultKeyboard is None:
+        deviceManager.addDevice(
+            deviceClass=&#x27;keyboard&#x27;, deviceName=&#x27;defaultKeyboard&#x27;, backend=&#x27;PsychToolbox&#x27;
+        )
+    eyetracker = deviceManager.getDevice(&#x27;eyetracker&#x27;)
+    # make sure we&#x27;re running in the directory for this experiment
+    os.chdir(_thisDir)
+    # get filename from ExperimentHandler for convenience
+    filename = thisExp.dataFileName
+    frameTolerance = 0.001  # how close to onset before &#x27;same&#x27; frame
+    endExpNow = False  # flag for &#x27;escape&#x27; or other condition =&gt; quit the exp
+    # get frame duration from frame rate in expInfo
+    if &#x27;frameRate&#x27; in expInfo and expInfo[&#x27;frameRate&#x27;] is not None:
+        frameDur = 1.0 / round(expInfo[&#x27;frameRate&#x27;])
+    else:
+        frameDur = 1.0 / 60.0  # could not measure, so guess
+    
+    # Start Code - component code to be run after the window creation
+    
+    # --- Initialize components for Routine &quot;WELCOME1&quot; ---
+    RESPUESTAWELCOME_2 = keyboard.Keyboard(deviceName=&#x27;defaultKeyboard&#x27;, backend=&#x27;PsychToolbox&#x27;)
+    Welcome_2 = visual.TextStim(win=win, name=&#x27;Welcome_2&#x27;,
+        text=&#x27;Saludos, bievenido a la tarea de medicion de tiempos de reaccion comparativa, a continuacion, vera una pantalla en blanco, en la cual periodicamente aparecera un o escuchara un sonido claro, cuando lo haga, debera presionar la tecla espacio, ¡Suerte!&#x27;,
+        font=&#x27;Arial&#x27;,
+        pos=(0, 0), draggable=False, height=0.05, wrapWidth=None, ori=0.0, 
+        color=&#x27;white&#x27;, colorSpace=&#x27;rgb&#x27;, opacity=None, 
+        languageStyle=&#x27;LTR&#x27;,
+        depth=-1.0);
+    
+    # --- Initialize components for Routine &quot;trial&quot; ---
+    SEÑALGRAFICA = visual.TextStim(win=win, name=&#x27;SEÑALGRAFICA&#x27;,
+        text=&#x27;¡YA!\n&#x27;,
+        font=&#x27;Arial&#x27;,
+        pos=(0, 0), draggable=False, height=0.05, wrapWidth=None, ori=0.0, 
+        color=&#x27;white&#x27;, colorSpace=&#x27;rgb&#x27;, opacity=1.0, 
+        languageStyle=&#x27;LTR&#x27;,
+        depth=0.0);
+    SEÑALAUDITIVA = sound.Sound(
+        &#x27;A&#x27;, 
+        secs=1.0, 
+        stereo=True, 
+        hamming=True, 
+        speaker=None,    name=&#x27;SEÑALAUDITIVA&#x27;
+    )
+    SEÑALAUDITIVA.setVolume(1.0)
+    RESPUESTASEÑAL = keyboard.Keyboard(deviceName=&#x27;defaultKeyboard&#x27;, backend=&#x27;PsychToolbox&#x27;)
+    FIJACION = visual.TextStim(win=win, name=&#x27;FIJACION&#x27;,
+        text=&#x27;+&#x27;,
+        font=&#x27;Arial&#x27;,
+        pos=(0, 0), draggable=False, height=0.05, wrapWidth=None, ori=0.0, 
+        color=&#x27;white&#x27;, colorSpace=&#x27;rgb&#x27;, opacity=None, 
+        languageStyle=&#x27;LTR&#x27;,
+        depth=-3.0);
+    
+    # --- Initialize components for Routine &quot;DESPEDIDA&quot; ---
+    DESPEDIDA1 = visual.TextStim(win=win, name=&#x27;DESPEDIDA1&#x27;,
+        text=&#x27;¡Gracias por participar!&#x27;,
+        font=&#x27;Arial&#x27;,
+        pos=(0, 0), draggable=False, height=0.05, wrapWidth=None, ori=0.0, 
+        color=&#x27;white&#x27;, colorSpace=&#x27;rgb&#x27;, opacity=None, 
+        languageStyle=&#x27;LTR&#x27;,
+        depth=0.0);
+    RESPUESTADESPEDIDA = keyboard.Keyboard(deviceName=&#x27;defaultKeyboard&#x27;, backend=&#x27;PsychToolbox&#x27;)
+    
+    # create some handy timers
+    
+    # global clock to track the time since experiment started
+    if globalClock is None:
+        # create a clock if not given one
+        globalClock = core.Clock()
+    if isinstance(globalClock, str):
+        # if given a string, make a clock accoridng to it
+        if globalClock == &#x27;float&#x27;:
+            # get timestamps as a simple value
+            globalClock = core.Clock(format=&#x27;float&#x27;)
+        elif globalClock == &#x27;iso&#x27;:
+            # get timestamps in ISO format
+            globalClock = core.Clock(format=&#x27;%Y-%m-%d_%H:%M:%S.%f%z&#x27;)
+        else:
+            # get timestamps in a custom format
+            globalClock = core.Clock(format=globalClock)
+    if ioServer is not None:
+        ioServer.syncClock(globalClock)
+    logging.setDefaultClock(globalClock)
+    if eyetracker is not None:
+        eyetracker.enableEventReporting()
+    # routine timer to track time remaining of each (possibly non-slip) routine
+    routineTimer = core.Clock()
+    win.flip()  # flip window to reset last flip timer
+    # store the exact time the global clock started
+    expInfo[&#x27;expStart&#x27;] = data.getDateStr(
+        format=&#x27;%Y-%m-%d %Hh%M.%S.%f %z&#x27;, fractionalSecondDigits=6
+    )
+    
+    # --- Prepare to start Routine &quot;WELCOME1&quot; ---
+    # create an object to store info about Routine WELCOME1
+    WELCOME1 = data.Routine(
+        name=&#x27;WELCOME1&#x27;,
+        components=[RESPUESTAWELCOME_2, Welcome_2],
+    )
+    WELCOME1.status = NOT_STARTED
+    continueRoutine = True
+    # update component parameters for each repeat
+    # create starting attributes for RESPUESTAWELCOME_2
+    RESPUESTAWELCOME_2.keys = []
+    RESPUESTAWELCOME_2.rt = []
+    _RESPUESTAWELCOME_2_allKeys = []
+    Welcome_2.setOpacity(None)
+    # store start times for WELCOME1
+    WELCOME1.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
+    WELCOME1.tStart = globalClock.getTime(format=&#x27;float&#x27;)
+    WELCOME1.status = STARTED
+    thisExp.addData(&#x27;WELCOME1.started&#x27;, WELCOME1.tStart)
+    WELCOME1.maxDuration = None
+    # keep track of which components have finished
+    WELCOME1Components = WELCOME1.components
+    for thisComponent in WELCOME1.components:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, &#x27;status&#x27;):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock=&quot;now&quot;)
+    frameN = -1
+    
+    # --- Run Routine &quot;WELCOME1&quot; ---
+    thisExp.currentRoutine = WELCOME1
+    WELCOME1.forceEnded = routineForceEnded = not continueRoutine
+    while continueRoutine:
+        # get current time
+        t = routineTimer.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # *RESPUESTAWELCOME_2* updates
+        waitOnFlip = False
+        
+        # if RESPUESTAWELCOME_2 is starting this frame...
+        if RESPUESTAWELCOME_2.status == NOT_STARTED and tThisFlip &gt;= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            RESPUESTAWELCOME_2.frameNStart = frameN  # exact frame index
+            RESPUESTAWELCOME_2.tStart = t  # local t and not account for scr refresh
+            RESPUESTAWELCOME_2.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(RESPUESTAWELCOME_2, &#x27;tStartRefresh&#x27;)  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, &#x27;RESPUESTAWELCOME_2.started&#x27;)
+            # update status
+            RESPUESTAWELCOME_2.status = STARTED
+            # keyboard checking is just starting
+            waitOnFlip = True
+            win.callOnFlip(RESPUESTAWELCOME_2.clock.reset)  # t=0 on next screen flip
+            win.callOnFlip(RESPUESTAWELCOME_2.clearEvents, eventType=&#x27;keyboard&#x27;)  # clear events on next screen flip
+        if RESPUESTAWELCOME_2.status == STARTED and not waitOnFlip:
+            theseKeys = RESPUESTAWELCOME_2.getKeys(keyList=[&#x27;space&#x27;], ignoreKeys=[&quot;escape&quot;], waitRelease=False)
+            _RESPUESTAWELCOME_2_allKeys.extend(theseKeys)
+            if len(_RESPUESTAWELCOME_2_allKeys):
+                RESPUESTAWELCOME_2.keys = _RESPUESTAWELCOME_2_allKeys[-1].name  # just the last key pressed
+                RESPUESTAWELCOME_2.rt = _RESPUESTAWELCOME_2_allKeys[-1].rt
+                RESPUESTAWELCOME_2.duration = _RESPUESTAWELCOME_2_allKeys[-1].duration
+                # a response ends the routine
+                continueRoutine = False
+        
+        # *Welcome_2* updates
+        
+        # if Welcome_2 is starting this frame...
+        if Welcome_2.status == NOT_STARTED and tThisFlip &gt;= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            Welcome_2.frameNStart = frameN  # exact frame index
+            Welcome_2.tStart = t  # local t and not account for scr refresh
+            Welcome_2.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(Welcome_2, &#x27;tStartRefresh&#x27;)  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, &#x27;Welcome_2.started&#x27;)
+            # update status
+            Welcome_2.status = STARTED
+            Welcome_2.setAutoDraw(True)
+        
+        # if Welcome_2 is active this frame...
+        if Welcome_2.status == STARTED:
+            # update params
+            pass
+        
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=[&quot;escape&quot;]):
+            thisExp.status = FINISHED
+        if thisExp.status == FINISHED or endExpNow:
+            endExperiment(thisExp, win=win)
+            return
+        # pause experiment here if requested
+        if thisExp.status == PAUSED:
+            pauseExperiment(
+                thisExp=thisExp, 
+                win=win, 
+                timers=[routineTimer, globalClock], 
+                currentRoutine=WELCOME1,
+            )
+            # skip the frame we paused on
+            continue
+        
+        # has a Component requested the Routine to end?
+        if not continueRoutine:
+            WELCOME1.forceEnded = routineForceEnded = True
+        # has the Routine been forcibly ended?
+        if WELCOME1.forceEnded or routineForceEnded:
+            break
+        # has every Component finished?
+        continueRoutine = False
+        for thisComponent in WELCOME1.components:
+            if hasattr(thisComponent, &quot;status&quot;) and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don&#x27;t flip if this routine is over or we&#x27;ll get a blank screen
+            win.flip()
+    
+    # --- Ending Routine &quot;WELCOME1&quot; ---
+    for thisComponent in WELCOME1.components:
+        if hasattr(thisComponent, &quot;setAutoDraw&quot;):
+            thisComponent.setAutoDraw(False)
+    # store stop times for WELCOME1
+    WELCOME1.tStop = globalClock.getTime(format=&#x27;float&#x27;)
+    WELCOME1.tStopRefresh = tThisFlipGlobal
+    thisExp.addData(&#x27;WELCOME1.stopped&#x27;, WELCOME1.tStop)
+    # check responses
+    if RESPUESTAWELCOME_2.keys in [&#x27;&#x27;, [], None]:  # No response was made
+        RESPUESTAWELCOME_2.keys = None
+    thisExp.addData(&#x27;RESPUESTAWELCOME_2.keys&#x27;,RESPUESTAWELCOME_2.keys)
+    if RESPUESTAWELCOME_2.keys != None:  # we had a response
+        thisExp.addData(&#x27;RESPUESTAWELCOME_2.rt&#x27;, RESPUESTAWELCOME_2.rt)
+        thisExp.addData(&#x27;RESPUESTAWELCOME_2.duration&#x27;, RESPUESTAWELCOME_2.duration)
+    thisExp.nextEntry()
+    # the Routine &quot;WELCOME1&quot; was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
+    
+    # set up handler to look after randomisation of conditions etc
+    ENSAYO = data.TrialHandler2(
+        name=&#x27;ENSAYO&#x27;,
+        nReps=10, 
+        method=&#x27;random&#x27;, 
+        extraInfo=expInfo, 
+        originPath=-1, 
+        trialList=data.importConditions(&#x27;CONDICIONES.xlsx&#x27;), 
+        seed=None, 
+        isTrials=True, 
+    )
+    thisExp.addLoop(ENSAYO)  # add the loop to the experiment
+    thisENSAYO = ENSAYO.trialList[0]  # so we can initialise stimuli with some values
+    # abbreviate parameter names if possible (e.g. rgb = thisENSAYO.rgb)
+    if thisENSAYO != None:
+        for paramName in thisENSAYO:
+            globals()[paramName] = thisENSAYO[paramName]
+    if thisSession is not None:
+        # if running in a Session with a Liaison client, send data up to now
+        thisSession.sendExperimentData()
+    
+    for thisENSAYO in ENSAYO:
+        ENSAYO.status = STARTED
+        if hasattr(thisENSAYO, &#x27;status&#x27;):
+            thisENSAYO.status = STARTED
+        currentLoop = ENSAYO
+        thisExp.timestampOnFlip(win, &#x27;thisRow.t&#x27;, format=globalClock.format)
+        if thisSession is not None:
+            # if running in a Session with a Liaison client, send data up to now
+            thisSession.sendExperimentData()
+        # abbreviate parameter names if possible (e.g. rgb = thisENSAYO.rgb)
+        if thisENSAYO != None:
+            for paramName in thisENSAYO:
+                globals()[paramName] = thisENSAYO[paramName]
+        
+        # --- Prepare to start Routine &quot;trial&quot; ---
+        # create an object to store info about Routine trial
+        trial = data.Routine(
+            name=&#x27;trial&#x27;,
+            components=[SEÑALGRAFICA, SEÑALAUDITIVA, RESPUESTASEÑAL, FIJACION],
+        )
+        trial.status = NOT_STARTED
+        continueRoutine = True
+        # update component parameters for each repeat
+        SEÑALGRAFICA.setOpacity(opacidad_texto)
+        SEÑALAUDITIVA.setSound(&#x27;datos/AUDIOREACCIOn.mp3&#x27;, secs=1.0, hamming=True)
+        SEÑALAUDITIVA.setVolume(volumen_audio, log=False)
+        SEÑALAUDITIVA.seek(0)
+        # create starting attributes for RESPUESTASEÑAL
+        RESPUESTASEÑAL.keys = []
+        RESPUESTASEÑAL.rt = []
+        _RESPUESTASEÑAL_allKeys = []
+        # store start times for trial
+        trial.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
+        trial.tStart = globalClock.getTime(format=&#x27;float&#x27;)
+        trial.status = STARTED
+        thisExp.addData(&#x27;trial.started&#x27;, trial.tStart)
+        trial.maxDuration = None
+        # keep track of which components have finished
+        trialComponents = trial.components
+        for thisComponent in trial.components:
+            thisComponent.tStart = None
+            thisComponent.tStop = None
+            thisComponent.tStartRefresh = None
+            thisComponent.tStopRefresh = None
+            if hasattr(thisComponent, &#x27;status&#x27;):
+                thisComponent.status = NOT_STARTED
+        # reset timers
+        t = 0
+        _timeToFirstFrame = win.getFutureFlipTime(clock=&quot;now&quot;)
+        frameN = -1
+        
+        # --- Run Routine &quot;trial&quot; ---
+        thisExp.currentRoutine = trial
+        trial.forceEnded = routineForceEnded = not continueRoutine
+        while continueRoutine:
+            # if trial has changed, end Routine now
+            if hasattr(thisENSAYO, &#x27;status&#x27;) and thisENSAYO.status == STOPPING:
+                continueRoutine = False
+            # get current time
+            t = routineTimer.getTime()
+            tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+            tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+            frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+            # update/draw components on each frame
+            
+            # *SEÑALGRAFICA* updates
+            
+            # if SEÑALGRAFICA is starting this frame...
+            if SEÑALGRAFICA.status == NOT_STARTED and tThisFlip &gt;= 0.5-frameTolerance:
+                # keep track of start time/frame for later
+                SEÑALGRAFICA.frameNStart = frameN  # exact frame index
+                SEÑALGRAFICA.tStart = t  # local t and not account for scr refresh
+                SEÑALGRAFICA.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(SEÑALGRAFICA, &#x27;tStartRefresh&#x27;)  # time at next scr refresh
+                # add timestamp to datafile
+                thisExp.timestampOnFlip(win, &#x27;SEÑALGRAFICA.started&#x27;)
+                # update status
+                SEÑALGRAFICA.status = STARTED
+                SEÑALGRAFICA.setAutoDraw(True)
+            
+            # if SEÑALGRAFICA is active this frame...
+            if SEÑALGRAFICA.status == STARTED:
+                # update params
+                pass
+            
+            # if SEÑALGRAFICA is stopping this frame...
+            if SEÑALGRAFICA.status == STARTED:
+                # is it time to stop? (based on global clock, using actual start)
+                if tThisFlipGlobal &gt; SEÑALGRAFICA.tStartRefresh + 1.0-frameTolerance:
+                    # keep track of stop time/frame for later
+                    SEÑALGRAFICA.tStop = t  # not accounting for scr refresh
+                    SEÑALGRAFICA.tStopRefresh = tThisFlipGlobal  # on global time
+                    SEÑALGRAFICA.frameNStop = frameN  # exact frame index
+                    # add timestamp to datafile
+                    thisExp.timestampOnFlip(win, &#x27;SEÑALGRAFICA.stopped&#x27;)
+                    # update status
+                    SEÑALGRAFICA.status = FINISHED
+                    SEÑALGRAFICA.setAutoDraw(False)
+            
+            # *SEÑALAUDITIVA* updates
+            
+            # if SEÑALAUDITIVA is starting this frame...
+            if SEÑALAUDITIVA.status == NOT_STARTED and tThisFlip &gt;= 0.5-frameTolerance:
+                # keep track of start time/frame for later
+                SEÑALAUDITIVA.frameNStart = frameN  # exact frame index
+                SEÑALAUDITIVA.tStart = t  # local t and not account for scr refresh
+                SEÑALAUDITIVA.tStartRefresh = tThisFlipGlobal  # on global time
+                # add timestamp to datafile
+                thisExp.addData(&#x27;SEÑALAUDITIVA.started&#x27;, tThisFlipGlobal)
+                # update status
+                SEÑALAUDITIVA.status = STARTED
+                SEÑALAUDITIVA.play(when=win)  # sync with win flip
+            
+            # if SEÑALAUDITIVA is stopping this frame...
+            if SEÑALAUDITIVA.status == STARTED:
+                # is it time to stop? (based on global clock, using actual start)
+                if tThisFlipGlobal &gt; SEÑALAUDITIVA.tStartRefresh + 1.0-frameTolerance or SEÑALAUDITIVA.isFinished:
+                    # keep track of stop time/frame for later
+                    SEÑALAUDITIVA.tStop = t  # not accounting for scr refresh
+                    SEÑALAUDITIVA.tStopRefresh = tThisFlipGlobal  # on global time
+                    SEÑALAUDITIVA.frameNStop = frameN  # exact frame index
+                    # add timestamp to datafile
+                    thisExp.timestampOnFlip(win, &#x27;SEÑALAUDITIVA.stopped&#x27;)
+                    # update status
+                    SEÑALAUDITIVA.status = FINISHED
+                    SEÑALAUDITIVA.stop()
+            
+            # *RESPUESTASEÑAL* updates
+            waitOnFlip = False
+            
+            # if RESPUESTASEÑAL is starting this frame...
+            if RESPUESTASEÑAL.status == NOT_STARTED and tThisFlip &gt;= 0.5-frameTolerance:
+                # keep track of start time/frame for later
+                RESPUESTASEÑAL.frameNStart = frameN  # exact frame index
+                RESPUESTASEÑAL.tStart = t  # local t and not account for scr refresh
+                RESPUESTASEÑAL.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(RESPUESTASEÑAL, &#x27;tStartRefresh&#x27;)  # time at next scr refresh
+                # add timestamp to datafile
+                thisExp.timestampOnFlip(win, &#x27;RESPUESTASEÑAL.started&#x27;)
+                # update status
+                RESPUESTASEÑAL.status = STARTED
+                # keyboard checking is just starting
+                waitOnFlip = True
+                win.callOnFlip(RESPUESTASEÑAL.clock.reset)  # t=0 on next screen flip
+                win.callOnFlip(RESPUESTASEÑAL.clearEvents, eventType=&#x27;keyboard&#x27;)  # clear events on next screen flip
+            if RESPUESTASEÑAL.status == STARTED and not waitOnFlip:
+                theseKeys = RESPUESTASEÑAL.getKeys(keyList=[&#x27;space&#x27;], ignoreKeys=[&quot;escape&quot;], waitRelease=False)
+                _RESPUESTASEÑAL_allKeys.extend(theseKeys)
+                if len(_RESPUESTASEÑAL_allKeys):
+                    RESPUESTASEÑAL.keys = _RESPUESTASEÑAL_allKeys[-1].name  # just the last key pressed
+                    RESPUESTASEÑAL.rt = _RESPUESTASEÑAL_allKeys[-1].rt
+                    RESPUESTASEÑAL.duration = _RESPUESTASEÑAL_allKeys[-1].duration
+                    # a response ends the routine
+                    continueRoutine = False
+            
+            # *FIJACION* updates
+            
+            # if FIJACION is starting this frame...
+            if FIJACION.status == NOT_STARTED and tThisFlip &gt;= 0.0-frameTolerance:
+                # keep track of start time/frame for later
+                FIJACION.frameNStart = frameN  # exact frame index
+                FIJACION.tStart = t  # local t and not account for scr refresh
+                FIJACION.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(FIJACION, &#x27;tStartRefresh&#x27;)  # time at next scr refresh
+                # add timestamp to datafile
+                thisExp.timestampOnFlip(win, &#x27;FIJACION.started&#x27;)
+                # update status
+                FIJACION.status = STARTED
+                FIJACION.setAutoDraw(True)
+            
+            # if FIJACION is active this frame...
+            if FIJACION.status == STARTED:
+                # update params
+                pass
+            
+            # if FIJACION is stopping this frame...
+            if FIJACION.status == STARTED:
+                # is it time to stop? (based on global clock, using actual start)
+                if tThisFlipGlobal &gt; FIJACION.tStartRefresh + 0.5-frameTolerance:
+                    # keep track of stop time/frame for later
+                    FIJACION.tStop = t  # not accounting for scr refresh
+                    FIJACION.tStopRefresh = tThisFlipGlobal  # on global time
+                    FIJACION.frameNStop = frameN  # exact frame index
+                    # add timestamp to datafile
+                    thisExp.timestampOnFlip(win, &#x27;FIJACION.stopped&#x27;)
+                    # update status
+                    FIJACION.status = FINISHED
+                    FIJACION.setAutoDraw(False)
+            
+            # check for quit (typically the Esc key)
+            if defaultKeyboard.getKeys(keyList=[&quot;escape&quot;]):
+                thisExp.status = FINISHED
+            if thisExp.status == FINISHED or endExpNow:
+                endExperiment(thisExp, win=win)
+                return
+            # pause experiment here if requested
+            if thisExp.status == PAUSED:
+                pauseExperiment(
+                    thisExp=thisExp, 
+                    win=win, 
+                    timers=[routineTimer, globalClock], 
+                    currentRoutine=trial,
+                )
+                # skip the frame we paused on
+                continue
+            
+            # has a Component requested the Routine to end?
+            if not continueRoutine:
+                trial.forceEnded = routineForceEnded = True
+            # has the Routine been forcibly ended?
+            if trial.forceEnded or routineForceEnded:
+                break
+            # has every Component finished?
+            continueRoutine = False
+            for thisComponent in trial.components:
+                if hasattr(thisComponent, &quot;status&quot;) and thisComponent.status != FINISHED:
+                    continueRoutine = True
+                    break  # at least one component has not yet finished
+            
+            # refresh the screen
+            if continueRoutine:  # don&#x27;t flip if this routine is over or we&#x27;ll get a blank screen
+                win.flip()
+        
+        # --- Ending Routine &quot;trial&quot; ---
+        for thisComponent in trial.components:
+            if hasattr(thisComponent, &quot;setAutoDraw&quot;):
+                thisComponent.setAutoDraw(False)
+        # store stop times for trial
+        trial.tStop = globalClock.getTime(format=&#x27;float&#x27;)
+        trial.tStopRefresh = tThisFlipGlobal
+        thisExp.addData(&#x27;trial.stopped&#x27;, trial.tStop)
+        SEÑALAUDITIVA.pause()  # ensure sound has stopped at end of Routine
+        # check responses
+        if RESPUESTASEÑAL.keys in [&#x27;&#x27;, [], None]:  # No response was made
+            RESPUESTASEÑAL.keys = None
+        ENSAYO.addData(&#x27;RESPUESTASEÑAL.keys&#x27;,RESPUESTASEÑAL.keys)
+        if RESPUESTASEÑAL.keys != None:  # we had a response
+            ENSAYO.addData(&#x27;RESPUESTASEÑAL.rt&#x27;, RESPUESTASEÑAL.rt)
+            ENSAYO.addData(&#x27;RESPUESTASEÑAL.duration&#x27;, RESPUESTASEÑAL.duration)
+        # the Routine &quot;trial&quot; was not non-slip safe, so reset the non-slip timer
+        routineTimer.reset()
+        # mark thisENSAYO as finished
+        if hasattr(thisENSAYO, &#x27;status&#x27;):
+            thisENSAYO.status = FINISHED
+        # if awaiting a pause, pause now
+        if ENSAYO.status == PAUSED:
+            thisExp.status = PAUSED
+            pauseExperiment(
+                thisExp=thisExp, 
+                win=win, 
+                timers=[globalClock], 
+            )
+            # once done pausing, restore running status
+            ENSAYO.status = STARTED
+        thisExp.nextEntry()
+        
+    # completed 3 repeats of &#x27;ENSAYO&#x27;
+    ENSAYO.status = FINISHED
+    
+    if thisSession is not None:
+        # if running in a Session with a Liaison client, send data up to now
+        thisSession.sendExperimentData()
+    
+    # --- Prepare to start Routine &quot;DESPEDIDA&quot; ---
+    # create an object to store info about Routine DESPEDIDA
+    DESPEDIDA = data.Routine(
+        name=&#x27;DESPEDIDA&#x27;,
+        components=[DESPEDIDA1, RESPUESTADESPEDIDA],
+    )
+    DESPEDIDA.status = NOT_STARTED
+    continueRoutine = True
+    # update component parameters for each repeat
+    # create starting attributes for RESPUESTADESPEDIDA
+    RESPUESTADESPEDIDA.keys = []
+    RESPUESTADESPEDIDA.rt = []
+    _RESPUESTADESPEDIDA_allKeys = []
+    # store start times for DESPEDIDA
+    DESPEDIDA.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
+    DESPEDIDA.tStart = globalClock.getTime(format=&#x27;float&#x27;)
+    DESPEDIDA.status = STARTED
+    thisExp.addData(&#x27;DESPEDIDA.started&#x27;, DESPEDIDA.tStart)
+    DESPEDIDA.maxDuration = None
+    # keep track of which components have finished
+    DESPEDIDAComponents = DESPEDIDA.components
+    for thisComponent in DESPEDIDA.components:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, &#x27;status&#x27;):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock=&quot;now&quot;)
+    frameN = -1
+    
+    # --- Run Routine &quot;DESPEDIDA&quot; ---
+    thisExp.currentRoutine = DESPEDIDA
+    DESPEDIDA.forceEnded = routineForceEnded = not continueRoutine
+    while continueRoutine:
+        # get current time
+        t = routineTimer.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # *DESPEDIDA1* updates
+        
+        # if DESPEDIDA1 is starting this frame...
+        if DESPEDIDA1.status == NOT_STARTED and tThisFlip &gt;= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            DESPEDIDA1.frameNStart = frameN  # exact frame index
+            DESPEDIDA1.tStart = t  # local t and not account for scr refresh
+            DESPEDIDA1.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(DESPEDIDA1, &#x27;tStartRefresh&#x27;)  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, &#x27;DESPEDIDA1.started&#x27;)
+            # update status
+            DESPEDIDA1.status = STARTED
+            DESPEDIDA1.setAutoDraw(True)
+        
+        # if DESPEDIDA1 is active this frame...
+        if DESPEDIDA1.status == STARTED:
+            # update params
+            pass
+        
+        # *RESPUESTADESPEDIDA* updates
+        waitOnFlip = False
+        
+        # if RESPUESTADESPEDIDA is starting this frame...
+        if RESPUESTADESPEDIDA.status == NOT_STARTED and tThisFlip &gt;= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            RESPUESTADESPEDIDA.frameNStart = frameN  # exact frame index
+            RESPUESTADESPEDIDA.tStart = t  # local t and not account for scr refresh
+            RESPUESTADESPEDIDA.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(RESPUESTADESPEDIDA, &#x27;tStartRefresh&#x27;)  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, &#x27;RESPUESTADESPEDIDA.started&#x27;)
+            # update status
+            RESPUESTADESPEDIDA.status = STARTED
+            # keyboard checking is just starting
+            waitOnFlip = True
+            win.callOnFlip(RESPUESTADESPEDIDA.clock.reset)  # t=0 on next screen flip
+            win.callOnFlip(RESPUESTADESPEDIDA.clearEvents, eventType=&#x27;keyboard&#x27;)  # clear events on next screen flip
+        if RESPUESTADESPEDIDA.status == STARTED and not waitOnFlip:
+            theseKeys = RESPUESTADESPEDIDA.getKeys(keyList=[&#x27;space&#x27;], ignoreKeys=[&quot;escape&quot;], waitRelease=False)
+            _RESPUESTADESPEDIDA_allKeys.extend(theseKeys)
+            if len(_RESPUESTADESPEDIDA_allKeys):
+                RESPUESTADESPEDIDA.keys = _RESPUESTADESPEDIDA_allKeys[-1].name  # just the last key pressed
+                RESPUESTADESPEDIDA.rt = _RESPUESTADESPEDIDA_allKeys[-1].rt
+                RESPUESTADESPEDIDA.duration = _RESPUESTADESPEDIDA_allKeys[-1].duration
+                # a response ends the routine
+                continueRoutine = False
+        
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=[&quot;escape&quot;]):
+            thisExp.status = FINISHED
+        if thisExp.status == FINISHED or endExpNow:
+            endExperiment(thisExp, win=win)
+            return
+        # pause experiment here if requested
+        if thisExp.status == PAUSED:
+            pauseExperiment(
+                thisExp=thisExp, 
+                win=win, 
+                timers=[routineTimer, globalClock], 
+                currentRoutine=DESPEDIDA,
+            )
+            # skip the frame we paused on
+            continue
+        
+        # has a Component requested the Routine to end?
+        if not continueRoutine:
+            DESPEDIDA.forceEnded = routineForceEnded = True
+        # has the Routine been forcibly ended?
+        if DESPEDIDA.forceEnded or routineForceEnded:
+            break
+        # has every Component finished?
+        continueRoutine = False
+        for thisComponent in DESPEDIDA.components:
+            if hasattr(thisComponent, &quot;status&quot;) and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don&#x27;t flip if this routine is over or we&#x27;ll get a blank screen
+            win.flip()
+    
+    # --- Ending Routine &quot;DESPEDIDA&quot; ---
+    for thisComponent in DESPEDIDA.components:
+        if hasattr(thisComponent, &quot;setAutoDraw&quot;):
+            thisComponent.setAutoDraw(False)
+    # store stop times for DESPEDIDA
+    DESPEDIDA.tStop = globalClock.getTime(format=&#x27;float&#x27;)
+    DESPEDIDA.tStopRefresh = tThisFlipGlobal
+    thisExp.addData(&#x27;DESPEDIDA.stopped&#x27;, DESPEDIDA.tStop)
+    # check responses
+    if RESPUESTADESPEDIDA.keys in [&#x27;&#x27;, [], None]:  # No response was made
+        RESPUESTADESPEDIDA.keys = None
+    thisExp.addData(&#x27;RESPUESTADESPEDIDA.keys&#x27;,RESPUESTADESPEDIDA.keys)
+    if RESPUESTADESPEDIDA.keys != None:  # we had a response
+        thisExp.addData(&#x27;RESPUESTADESPEDIDA.rt&#x27;, RESPUESTADESPEDIDA.rt)
+        thisExp.addData(&#x27;RESPUESTADESPEDIDA.duration&#x27;, RESPUESTADESPEDIDA.duration)
+    thisExp.nextEntry()
+    # the Routine &quot;DESPEDIDA&quot; was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
+    
+    # mark experiment as finished
+    endExperiment(thisExp, win=win)
+
+
+def saveData(thisExp):
+    &quot;&quot;&quot;
+    Save data from this experiment
+    
+    Parameters
+    ==========
+    thisExp : psychopy.data.ExperimentHandler
+        Handler object for this experiment, contains the data to save and information about 
+        where to save it to.
+    &quot;&quot;&quot;
+    filename = thisExp.dataFileName
+    # these shouldn&#x27;t be strictly necessary (should auto-save)
+    thisExp.saveAsWideText(filename + &#x27;.csv&#x27;, delim=&#x27;auto&#x27;)
+    thisExp.saveAsPickle(filename)
+
+
+def endExperiment(thisExp, win=None):
+    &quot;&quot;&quot;
+    End this experiment, performing final shut down operations.
+    
+    This function does NOT close the window or end the Python process - use `quit` for this.
+    
+    Parameters
+    ==========
+    thisExp : psychopy.data.ExperimentHandler
+        Handler object for this experiment, contains the data to save and information about 
+        where to save it to.
+    win : psychopy.visual.Window
+        Window for this experiment.
+    &quot;&quot;&quot;
+    # stop any playback components
+    if thisExp.currentRoutine is not None:
+        for comp in thisExp.currentRoutine.getPlaybackComponents():
+            comp.stop()
+    if win is not None:
+        # remove autodraw from all current components
+        win.clearAutoDraw()
+        # Flip one final time so any remaining win.callOnFlip() 
+        # and win.timeOnFlip() tasks get executed
+        win.flip()
+    # return console logger level to WARNING
+    logging.console.setLevel(logging.WARNING)
+    # mark experiment handler as finished
+    thisExp.status = FINISHED
+    # run any &#x27;at exit&#x27; functions
+    for fcn in runAtExit:
+        fcn()
+    logging.flush()
+
+
+def quit(thisExp, win=None, thisSession=None):
+    &quot;&quot;&quot;
+    Fully quit, closing the window and ending the Python process.
+    
+    Parameters
+    ==========
+    win : psychopy.visual.Window
+        Window to close.
+    thisSession : psychopy.session.Session or None
+        Handle of the Session object this experiment is being run from, if any.
+    &quot;&quot;&quot;
+    thisExp.abort()  # or data files will save again on exit
+    # make sure everything is closed down
+    if win is not None:
+        # Flip one final time so any remaining win.callOnFlip() 
+        # and win.timeOnFlip() tasks get executed before quitting
+        win.flip()
+        win.close()
+    logging.flush()
+    if thisSession is not None:
+        thisSession.stop()
+    # terminate Python process
+    core.quit()
+
+
+# if running this experiment as a script...
+if __name__ == &#x27;__main__&#x27;:
+    # call all functions in order
+    expInfo = showExpInfoDlg(expInfo=expInfo)
+    thisExp = setupData(expInfo=expInfo)
+    logFile = setupLogging(filename=thisExp.dataFileName)
+    win = setupWindow(expInfo=expInfo)
+    setupDevices(expInfo=expInfo, thisExp=thisExp, win=win)
+    run(
+        expInfo=expInfo, 
+        thisExp=thisExp, 
+        win=win,
+        globalClock=&#x27;float&#x27;
+    )
+    saveData(thisExp=thisExp)
+    quit(thisExp=thisExp, win=win)
+</code></pre></div>
+      </details>
+      <p class="descargas"><a href="descargas/experimento_MODULO2.py" download>Descargar experimento_MODULO2.py</a></p>
+      <p class="descargas"><a href="descargas/diseno_MODULO2.psyexp" download>Descargar diseno_MODULO2.psyexp</a></p>
+    </section>
+
+    <section id="limpieza">
+      <h2>2. Código de limpieza</h2>
+      <p>Archivo <code>limpiar_datos_p2.py</code>. Lee el CSV crudo sin modificarlo, separa las filas de inicio y despedida, convierte el tiempo de respuesta a milisegundos y conserva solo los ensayos entre 150 y 1000 ms.</p>
+      <details>
+        <summary>Ver código de limpieza, 197 líneas</summary>
+        <div class="codigo"><pre><code>#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+&quot;&quot;&quot;
+LIMPIEZA DE DATOS — PROTOCOLO 2 (tiempos de reacción)
+=====================================================
+
+¿Qué hace?
+----------
+1. Lee el CSV CRUDO que generó PsychoPy (NO lo modifica).
+2. Separa tres tipos de filas:
+   a) filas de bienvenida / despedida (no son ensayos) -&gt; se descartan;
+   b) ensayos reales con RT fuera de 150-1000 ms -&gt; se descartan;
+   c) ensayos reales con RT válido -&gt; se conservan.
+3. Escribe DOS archivos nuevos al lado del original:
+   - &quot;..._LIMPIO.csv&quot;           -&gt; tabla corta lista para graficar: ensayo, tipo, RT_ms
+   - &quot;..._INFORME_LIMPIEZA.txt&quot; -&gt; auditoría: qué se descartó y por qué, más los resúmenes
+
+¿Por qué no hace falta pandas?
+------------------------------
+`csv` lee filas como diccionarios y `statistics` calcula media/mediana/desviación.
+Con 20 ensayos eso es todo lo que necesitamos. Además, así se ve exactamente
+qué pasa con cada fila, que es lo que se quiere mostrar en el portafolio.
+
+¿Cómo se usa?
+-------------
+    python3 limpiar_datos_p2.py
+
+O, si quieres limpiar otro CSV:
+
+    python3 limpiar_datos_p2.py &quot;/ruta/al/otro_archivo.csv&quot;
+
+Requisitos: solo Python 3. No instalar nada.
+&quot;&quot;&quot;
+
+import csv          # viene con Python: lee y escribe archivos CSV
+import statistics  # viene con Python: mean(), median(), stdev()
+import sys          # para leer la ruta opcional que pases por terminal
+from pathlib import Path  # para armar rutas sin pelearnos con barras ni espacios
+
+# --- Configuración: cambiar solo si el experimento cambia ---
+ARCHIVO_POR_DEFECTO = Path(
+    &quot;datos/&quot;
+    &quot;P2_crudo.csv&quot;
+)
+COL_TIPO = &quot;tipo&quot;                 # dice si el ensayo fue &quot;audio&quot; o &quot;texto&quot;
+COL_RT = &quot;RESPUESTASEÑAL.rt&quot;      # RT en segundos (ojo: lleva ñ)
+CONDICIONES = (&quot;audio&quot;, &quot;texto&quot;)  # todo lo demás no es un ensayo
+RT_MIN_MS = 150.0                 # umbral inferior acordado
+RT_MAX_MS = 1000.0                # umbral superior acordado
+
+
+def leer_csv(ruta):
+    &quot;&quot;&quot;Devuelve (cabecera, filas). utf-8-sig quita el BOM y respeta la ñ.&quot;&quot;&quot;
+    with ruta.open(&quot;r&quot;, encoding=&quot;utf-8-sig&quot;, newline=&quot;&quot;) as archivo:
+        lector = csv.DictReader(archivo)
+        cabecera = lector.fieldnames or []
+        filas = list(lector)
+    return cabecera, filas
+
+
+def revisar_fila(fila, numero_linea):
+    &quot;&quot;&quot;
+    Clasifica una fila. Devuelve (accion, motivo, rt_ms).
+
+    &#x27;accion&#x27; es &quot;conservar&quot; o &quot;descartar&quot;. El número de línea es el del
+    archivo original (la cabecera es la línea 1), para poder auditar.
+    &quot;&quot;&quot;
+    tipo = (fila.get(COL_TIPO) or &quot;&quot;).strip()
+
+    # 1) La fila de WELCOME y la de DESPEDIDA tienen &#x27;tipo&#x27; vacío.
+    #    Aunque la despedida tenga un RT, NO es un ensayo: se va.
+    if tipo not in CONDICIONES:
+        return &quot;descartar&quot;, &quot;fila de inicio/despedida (no es ensayo)&quot;, None
+
+    # 2) Ensayo sin respuesta registrada.
+    texto_rt = (fila.get(COL_RT) or &quot;&quot;).strip()
+    if not texto_rt:
+        return &quot;descartar&quot;, &quot;ensayo sin respuesta registrada&quot;, None
+
+    # 3) PsychoPy guarda el RT en segundos; lo pasamos a milisegundos.
+    try:
+        rt_ms = float(texto_rt) * 1000.0
+    except ValueError:
+        return &quot;descartar&quot;, &quot;RT no numérico: {!r}&quot;.format(texto_rt), None
+
+    # 4) Regla de limpieza acordada: 150 ms &lt;= RT &lt;= 1000 ms.
+    if not (RT_MIN_MS &lt;= rt_ms &lt;= RT_MAX_MS):
+        lado = &quot;menor a 150 ms&quot; if rt_ms &lt; RT_MIN_MS else &quot;mayor a 1000 ms&quot;
+        return &quot;descartar&quot;, &quot;RT {:.1f} ms ({})&quot;.format(rt_ms, lado), rt_ms
+
+    return &quot;conservar&quot;, &quot;&quot;, rt_ms
+
+
+def resumen(valores):
+    &quot;&quot;&quot;Devuelve una frase con n, media, mediana y DE, o un aviso si está vacío.&quot;&quot;&quot;
+    if not valores:
+        return &quot;sin datos&quot;
+    frase = &quot;n={}, media={:.1f} ms, mediana={:.1f} ms&quot;.format(
+        len(valores), statistics.mean(valores), statistics.median(valores)
+    )
+    if len(valores) &gt;= 2:
+        frase += &quot;, DE={:.1f} ms&quot;.format(statistics.stdev(valores))
+    return frase
+
+
+def main():
+    # La ruta puede venir como argumento; si no, usamos la de arriba.
+    ruta = Path(sys.argv[1]) if len(sys.argv) &gt; 1 else ARCHIVO_POR_DEFECTO
+    if not ruta.exists():
+        print(&quot;ERROR: no encontré el archivo:&quot;, ruta)
+        return
+
+    cabecera, filas = leer_csv(ruta)
+
+    # Si el experimento cambia de nombre de columnas, avisamos en vez de fallar en silencio.
+    faltan = [c for c in (COL_TIPO, COL_RT) if c not in cabecera]
+    if faltan:
+        print(&quot;ERROR: faltan columnas en el CSV:&quot;, &quot;, &quot;.join(faltan))
+        return
+
+    conservadas, descartes = [], []
+    for numero_linea, fila in enumerate(filas, start=2):  # 1 es la cabecera
+        accion, motivo, rt_ms = revisar_fila(fila, numero_linea)
+        if accion == &quot;conservar&quot;:
+            conservadas.append((fila[COL_TIPO].strip(), rt_ms))
+        else:
+            descartes.append((numero_linea, motivo))
+
+    ruta_limpia = ruta.with_name(ruta.stem + &quot;_LIMPIO.csv&quot;)
+    ruta_informe = ruta.with_name(ruta.stem + &quot;_INFORME_LIMPIEZA.txt&quot;)
+
+    # Escribimos la tabla corta.csv (solo 3 columnas, lista para graficar).
+    with ruta_limpia.open(&quot;w&quot;, encoding=&quot;utf-8-sig&quot;, newline=&quot;&quot;) as archivo:
+        escritor = csv.writer(archivo)
+        escritor.writerow([&quot;ensayo&quot;, &quot;condicion&quot;, &quot;RT_ms&quot;])
+        for i, (tipo, rt_ms) in enumerate(conservadas, start=1):
+            escritor.writerow([i, tipo, round(rt_ms)])
+
+    # Armamos el informe en texto plano con todo lo que pasó.
+    lineas = []
+    lineas.append(&quot;INFORME DE LIMPIEZA - PROTOCOLO 2 (tiempos de reaccion)&quot;)
+    lineas.append(&quot;=&quot; * 60)
+    lineas.append(&quot;Archivo original (NO modificado): {}&quot;.format(ruta))
+    lineas.append(&quot;Archivo limpio generado:          {}&quot;.format(ruta_limpia))
+    lineas.append(&quot;&quot;)
+    lineas.append(&quot;CRITERIO: conservar solo ensayos audio/texto con 150 &lt;= RT &lt;= 1000 ms.&quot;)
+    lineas.append(&quot;&quot;)
+    lineas.append(&quot;FILAS DEL ARCHIVO ORIGINAL: {}&quot;.format(len(filas)))
+    lineas.append(&quot;  Ensayos conservados: {}&quot;.format(len(conservadas)))
+    lineas.append(&quot;  Filas descartadas:   {}&quot;.format(len(descartes)))
+    lineas.append(&quot;&quot;)
+    lineas.append(&quot;DESCARTES (numero de linea del CSV original):&quot;)
+    for numero_linea, motivo in descartes:
+        lineas.append(&quot;  linea {}: {}&quot;.format(numero_linea, motivo))
+    if not descartes:
+        lineas.append(&quot;  (ninguno)&quot;)
+    lineas.append(&quot;&quot;)
+    lineas.append(&quot;TABLA LISTA PARA PEGAR EN EL PORTAFOLIO&quot;)
+    lineas.append(&quot;  ensayo | condicion | RT (ms)&quot;)
+    for i, (tipo, rt_ms) in enumerate(conservadas, start=1):
+        lineas.append(&quot;  {:&gt;6} | {:&gt;9} | {:&gt;6.0f}&quot;.format(i, tipo, rt_ms))
+    lineas.append(&quot;&quot;)
+
+    # Resumen final: primero con filtro (el que se informa) y luego sin filtro
+    # (solo como referencia, para mostrar que no escondemos nada).
+    lineas.append(&quot;RESUMEN CON LA LIMPIEZA APLICADA (usar este en el informe):&quot;)
+    for cond in CONDICIONES:
+        vals = [rt for tipo, rt in conservadas if tipo == cond]
+        lineas.append(&quot;  {}: {}&quot;.format(cond, resumen(vals)))
+    lineas.append(&quot;&quot;)
+    lineas.append(&quot;RESUMEN SIN FILTRAR (solo referencia; NO usar en el informe):&quot;)
+    for cond in CONDICIONES:
+        vals = []
+        for fila in filas:
+            if (fila.get(COL_TIPO) or &quot;&quot;).strip() == cond and (fila.get(COL_RT) or &quot;&quot;).strip():
+                vals.append(float(fila[COL_RT]) * 1000.0)
+        lineas.append(&quot;  {}: {}&quot;.format(cond, resumen(vals)))
+    lineas.append(&quot;&quot;)
+    lineas.append(&quot;Nota: la etiqueta &#x27;piloting=True&#x27; del CSV original aparece solo en la&quot;)
+    lineas.append(&quot;fila de metadatos de inicio y no afecta a los ensayos conservados.&quot;)
+
+    ruta_informe.write_text(&quot;\n&quot;.join(lineas) + &quot;\n&quot;, encoding=&quot;utf-8&quot;)
+
+    # Eco en pantalla para que veas que todo salió bien.
+    print(&quot;Listo.&quot;)
+    print(&quot;  Ensayos conservados:&quot;, len(conservadas))
+    print(&quot;  Filas descartadas:  &quot;, len(descartes))
+    print(&quot;  Tabla limpia:       &quot;, ruta_limpia)
+    print(&quot;  Informe:            &quot;, ruta_informe)
+    print()
+    for cond in CONDICIONES:
+        vals = [rt for tipo, rt in conservadas if tipo == cond]
+        print(&quot;  {}: {}&quot;.format(cond, resumen(vals)))
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre></div>
+      </details>
+      <p class="descargas"><a href="descargas/limpieza_datos_p2.py" download>Descargar limpieza_datos_p2.py</a></p>
+    </section>
+
+    <section id="antes">
+      <h2>3. Tabla previa a la limpieza</h2>
+      <p>Filas del CSV original de PsychoPy. Se muestran las columnas necesarias para auditar la decisión. La fila 2 corresponde al inicio y la fila 23 a la despedida.</p>
+      <div class="tabla-ancho">
+      <table class="datos">
+        <caption>CSV crudo, 22 filas — decisión del script de limpieza</caption>
+        <thead><tr><th>Fila</th><th>Tipo</th><th>RT en segundos</th><th>RT en ms</th><th>Decisión</th><th>Motivo</th></tr></thead>
+        <tbody>
+<tr><td>2</td><td>sin tipo</td><td>sin dato</td><td>sin dato</td><td>descartar</td><td>fila de inicio/despedida (no es ensayo)</td></tr>
+<tr><td>3</td><td>audio</td><td>0.29146552</td><td>291.5</td><td>conservar</td><td>cumple el rango de 150 a 1000 ms</td></tr>
+<tr><td>4</td><td>texto</td><td>0.35105347</td><td>351.1</td><td>conservar</td><td>cumple el rango de 150 a 1000 ms</td></tr>
+<tr><td>5</td><td>audio</td><td>0.65407156</td><td>654.1</td><td>conservar</td><td>cumple el rango de 150 a 1000 ms</td></tr>
+<tr><td>6</td><td>texto</td><td>0.42084670</td><td>420.8</td><td>conservar</td><td>cumple el rango de 150 a 1000 ms</td></tr>
+<tr><td>7</td><td>audio</td><td>0.90992593</td><td>909.9</td><td>conservar</td><td>cumple el rango de 150 a 1000 ms</td></tr>
+<tr><td>8</td><td>texto</td><td>0.53381514</td><td>533.8</td><td>conservar</td><td>cumple el rango de 150 a 1000 ms</td></tr>
+<tr><td>9</td><td>texto</td><td>0.44013810</td><td>440.1</td><td>conservar</td><td>cumple el rango de 150 a 1000 ms</td></tr>
+<tr><td>10</td><td>audio</td><td>1.15106987</td><td>1151.1</td><td>descartar</td><td>RT 1151.1 ms (mayor a 1000 ms)</td></tr>
+<tr><td>11</td><td>audio</td><td>0.36014294</td><td>360.1</td><td>conservar</td><td>cumple el rango de 150 a 1000 ms</td></tr>
+<tr><td>12</td><td>texto</td><td>0.49455308</td><td>494.6</td><td>conservar</td><td>cumple el rango de 150 a 1000 ms</td></tr>
+<tr><td>13</td><td>audio</td><td>0.35048675</td><td>350.5</td><td>conservar</td><td>cumple el rango de 150 a 1000 ms</td></tr>
+<tr><td>14</td><td>texto</td><td>0.39336395</td><td>393.4</td><td>conservar</td><td>cumple el rango de 150 a 1000 ms</td></tr>
+<tr><td>15</td><td>audio</td><td>0.66881704</td><td>668.8</td><td>conservar</td><td>cumple el rango de 150 a 1000 ms</td></tr>
+<tr><td>16</td><td>texto</td><td>0.35107302</td><td>351.1</td><td>conservar</td><td>cumple el rango de 150 a 1000 ms</td></tr>
+<tr><td>17</td><td>texto</td><td>0.27863049</td><td>278.6</td><td>conservar</td><td>cumple el rango de 150 a 1000 ms</td></tr>
+<tr><td>18</td><td>audio</td><td>0.31834721</td><td>318.3</td><td>conservar</td><td>cumple el rango de 150 a 1000 ms</td></tr>
+<tr><td>19</td><td>texto</td><td>0.45594525</td><td>455.9</td><td>conservar</td><td>cumple el rango de 150 a 1000 ms</td></tr>
+<tr><td>20</td><td>audio</td><td>0.63405823</td><td>634.1</td><td>conservar</td><td>cumple el rango de 150 a 1000 ms</td></tr>
+<tr><td>21</td><td>audio</td><td>0.34266376</td><td>342.7</td><td>conservar</td><td>cumple el rango de 150 a 1000 ms</td></tr>
+<tr><td>22</td><td>texto</td><td>0.73981142</td><td>739.8</td><td>conservar</td><td>cumple el rango de 150 a 1000 ms</td></tr>
+<tr><td>23</td><td>sin tipo</td><td>sin dato</td><td>sin dato</td><td>descartar</td><td>fila de inicio/despedida (no es ensayo)</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="descargas"><a href="descargas/datos_crudos_P2.csv" download>Descargar datos_crudos_P2.csv</a></p>
+    </section>
+
+    <section id="despues">
+      <h2>4. Tabla posterior a la limpieza</h2>
+      <p>Tabla resultante, con los 19 ensayos válidos. Es la que se usó para el gráfico y los resúmenes del módulo 2.</p>
+      <div class="tabla-ancho">
+      <table class="datos">
+        <caption>Tabla limpia, 19 ensayos</caption>
+        <thead><tr><th>Ensayo</th><th>Condición</th><th>Tiempo de reacción en ms</th></tr></thead>
+        <tbody>
+<tr><td>1</td><td>audio</td><td>291</td></tr>
+<tr><td>2</td><td>texto</td><td>351</td></tr>
+<tr><td>3</td><td>audio</td><td>654</td></tr>
+<tr><td>4</td><td>texto</td><td>421</td></tr>
+<tr><td>5</td><td>audio</td><td>910</td></tr>
+<tr><td>6</td><td>texto</td><td>534</td></tr>
+<tr><td>7</td><td>texto</td><td>440</td></tr>
+<tr><td>8</td><td>audio</td><td>360</td></tr>
+<tr><td>9</td><td>texto</td><td>495</td></tr>
+<tr><td>10</td><td>audio</td><td>350</td></tr>
+<tr><td>11</td><td>texto</td><td>393</td></tr>
+<tr><td>12</td><td>audio</td><td>669</td></tr>
+<tr><td>13</td><td>texto</td><td>351</td></tr>
+<tr><td>14</td><td>texto</td><td>279</td></tr>
+<tr><td>15</td><td>audio</td><td>318</td></tr>
+<tr><td>16</td><td>texto</td><td>456</td></tr>
+<tr><td>17</td><td>audio</td><td>634</td></tr>
+<tr><td>18</td><td>audio</td><td>343</td></tr>
+<tr><td>19</td><td>texto</td><td>740</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="descargas"><a href="descargas/datos_limpios_P2.xlsx" download>Descargar datos_limpios_P2.xlsx</a></p>
+      <p class="descargas"><a href="descargas/datos_limpios_P2.csv" download>Descargar datos_limpios_P2.csv</a></p>
+    </section>
+
+    <section id="informe">
+      <h2>5. Informe de limpieza</h2>
+      <p>Texto de auditoría generado por el propio script, con los descartes y los resúmenes con y sin filtro.</p>
+      <details>
+        <summary>Ver informe de limpieza</summary>
+        <div class="codigo"><pre><code>INFORME DE LIMPIEZA - PROTOCOLO 2 (tiempos de reaccion)
+============================================================
+Archivo original (NO modificado): datos/P2_crudo.csv
+Archivo limpio generado:          datos/P2_limpio.csv
+
+CRITERIO: conservar solo ensayos audio/texto con 150 &lt;= RT &lt;= 1000 ms.
+
+FILAS DEL ARCHIVO ORIGINAL: 22
+  Ensayos conservados: 19
+  Filas descartadas:   3
+
+DESCARTES (numero de linea del CSV original):
+  linea 2: fila de inicio/despedida (no es ensayo)
+  linea 10: RT 1151.1 ms (mayor a 1000 ms)
+  linea 23: fila de inicio/despedida (no es ensayo)
+
+TABLA LISTA PARA PEGAR EN EL PORTAFOLIO
+  ensayo | condicion | RT (ms)
+       1 |     audio |    291
+       2 |     texto |    351
+       3 |     audio |    654
+       4 |     texto |    421
+       5 |     audio |    910
+       6 |     texto |    534
+       7 |     texto |    440
+       8 |     audio |    360
+       9 |     texto |    495
+      10 |     audio |    350
+      11 |     texto |    393
+      12 |     audio |    669
+      13 |     texto |    351
+      14 |     texto |    279
+      15 |     audio |    318
+      16 |     texto |    456
+      17 |     audio |    634
+      18 |     audio |    343
+      19 |     texto |    740
+
+RESUMEN CON LA LIMPIEZA APLICADA (usar este en el informe):
+  audio: n=9, media=503.3 ms, mediana=360.1 ms, DE=218.3 ms
+  texto: n=10, media=445.9 ms, mediana=430.5 ms, DE=127.4 ms
+
+RESUMEN SIN FILTRAR (solo referencia; NO usar en el informe):
+  audio: n=10, media=568.1 ms, mediana=497.1 ms, DE=290.4 ms
+  texto: n=10, media=445.9 ms, mediana=430.5 ms, DE=127.4 ms
+
+Nota: la etiqueta &#x27;piloting=True&#x27; del CSV original aparece solo en la
+fila de metadatos de inicio y no afecta a los ensayos conservados.
+</code></pre></div>
+      </details>
+      <p class="descargas"><a href="descargas/informe_limpieza_P2.txt" download>Descargar informe_limpieza_P2.txt</a></p>
+    </section>
+
+    <section id="descargas">
+      <h2>6. Archivos para descargar</h2>
+      <ul class="lista-descargas">
+        <li><a href="descargas/experimento_MODULO2.py" download>MODULO2.py</a> — código del experimento</li>
+        <li><a href="descargas/diseno_MODULO2.psyexp" download>MODULO2.psyexp</a> — diseño de PsychoPy</li>
+        <li><a href="descargas/limpieza_datos_p2.py" download>limpiar_datos_p2.py</a> — código de limpieza</li>
+        <li><a href="descargas/datos_crudos_P2.csv" download>CSV crudo anonimizado</a></li>
+        <li><a href="descargas/datos_limpios_P2.xlsx" download>XLSX limpio anonimizado</a></li>
+        <li><a href="descargas/datos_limpios_P2.csv" download>CSV limpio, mismo contenido que el XLSX</a></li>
+        <li><a href="descargas/informe_limpieza_P2.txt" download>Informe de limpieza</a></li>
+      </ul>
+      <p class="nota">El CSV limpio es una conversión del XLSX limpio a texto plano. No agrega ni cambia datos.</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Actividad Sumativa Nº 4 · Neurociencias · Teofilo Angulo · <a href="modulo2.html">Módulo 2</a> · <a href="index.html">Índice</a></p>
+  </footer>
+
+</body>
+</html>
