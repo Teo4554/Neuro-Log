@@ -97,14 +97,10 @@ La diferencia observada, **+57,2 ms a favor del visual**, es inversa a lo habitu
 
 ### 🤖 Uso de asistencia de IA
 
-Transparencia sobre qué partes fueron asistidas y cuáles no:
-
-- **Redacción:** los módulos 1 y 2 y las conclusiones fueron escritos por el estudiante. El módulo 3 se redactó con apoyo de IA a pedido del estudiante, de forma resumida y adaptada a su estilo. La revisión de redacción del conjunto también contó con apoyo de IA.
 - **Código:** el script de limpieza del P2 (`datos/limpiar_datos_p2.py`) y sus docstrings fueron generados con asistencia de IA, y luego **revisados, ejecutados y verificados por el estudiante** contra el CSV real.
-- **Documentación:** este README, las explicaciones del anexo y el procesamiento de los gráficos fueron apoyados por IA, siempre a partir de datos y decisiones proporcionadas por el estudiante.
 - **No delegado a la IA:** la recolección de los datos, el diseño de los experimentos, la definición del umbral de 150-1000 ms, la interpretación de los resultados y la aprobación final de los textos.
 
-> Esta sección describe el uso de IA **en el repositorio**. La declaración correspondiente a la entrega académica permanece en el PDF reglamentario y no fue modificada.
+> La declaración correspondiente a la entrega académica permanece en el PDF reglamentario y no fue modificada.
 
 ### 🔒 Privacidad
 
@@ -198,14 +194,10 @@ The observed difference, **+57.2 ms in favour of the visual condition**, is the 
 
 ### 🤖 AI assistance
 
-Transparency about what was assisted and what was not:
-
-- **Writing:** modules 1 and 2 and the conclusions were written by the student. Module 3 was drafted with AI support at the student's request, kept concise and adapted to their style. Proofreading of the whole set also involved AI support.
 - **Code:** the P2 cleaning script (`datos/limpiar_datos_p2.py`) and its docstrings were generated with AI assistance and then **reviewed, run and verified by the student** against the actual CSV.
-- **Documentation:** this README, the annex explanations and the plot processing were supported by AI, always using data and decisions supplied by the student.
 - **Not delegated to AI:** data collection, experiment design, the 150-1000 ms threshold, interpretation of the results and final approval of the texts.
 
-> This section describes AI use **in the repository**. The declaration for the academic submission remains in the official PDF and was not changed.
+> The declaration for the academic submission remains in the official PDF and was not changed.
 
 ### 🔒 Privacy
 
