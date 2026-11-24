@@ -1,15 +1,15 @@
 <div align="center">
 
-# Neuro-Log. · Neurociencias II — Unidad IV
+# Neuro-Log.
 
-**Portafolio web de la Actividad Sumativa Nº 4**
-Tres protocolos de fisiología sensorial · N = 1 por protocolo · datos y análisis reproducibles
+**Sitio web, experimentos y código**
+Tres protocolos de psicología experimental · datos y análisis reproducibles
 
 ![Python 3](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)
 ![PsychoPy](https://img.shields.io/badge/PsychoPy-experiments-6B4C9A)
 ![Design](https://img.shields.io/badge/design-N%20%3D%201-2f4f6f)
 ![Deploy](https://img.shields.io/badge/deploy-Vercel-000000?logo=vercel&logoColor=white)
-![Use](https://img.shields.io/badge/use-academic-6c757d)
+![Data](https://img.shields.io/badge/data-anonymised-2f4f6f)
 
 [🇪🇸 Español](#español) · [🇬🇧 English](#english)
 
@@ -21,17 +21,16 @@ Tres protocolos de fisiología sensorial · N = 1 por protocolo · datos y anál
 
 ## 🇪🇸 Español
 
-> 🌐 **Sitio publicado:** https://neuroportafolio.vercel.app/
+> 🌐 **Sitio:** https://neuroportafolio.vercel.app/
 >
-> Este repositorio es el **código fuente** del sitio. Vercel es el enlace que se entregó con la actividad. El PDF reglamentario no se incluye acá porque contiene datos personales.
+> Este repositorio contiene el sitio estático, los archivos del experimento de PsychoPy y el código que genera gráficos, tablas y anexo a partir de los datos.
 
 ### ✨ De un vistazo
 
 | | |
 | --- | --- |
-| 🧪 Actividad | Sumativa Nº 4 · Unidad IV |
-| 🧠 Protocolos | 3: discriminación táctil, tiempo de reacción y postimagen |
-| 👥 Muestra | N = 1 por protocolo, estudiante como participante y experimentador |
+| 🧪 Proyectos | 3: discriminación táctil, tiempo de reacción y postimagen |
+| 👥 Muestra | N = 1 por protocolo |
 | 📊 Datos | copias anonimizadas; ningún valor empírico modificado |
 | 🔁 Reproducible | gráficos, anexo y tablas se regeneran desde los datos |
 
@@ -43,7 +42,7 @@ Tres protocolos de fisiología sensorial · N = 1 por protocolo · datos y anál
 | `modulo2.html` | Tiempos de reacción | RT visual y auditivo, en ms | Visual 446,0 ms · Auditivo 503,2 ms |
 | `modulo3.html` | Postimagen por flash | Duración de la postimagen, en s | Media 6,0 s · DE 3,7 s |
 
-Cada módulo sigue los cuatro bloques de la rúbrica: fundamentos neurofisiológicos, diseño metodológico y muestra, tablas y gráfico, y discusión. `conclusiones.html` integra los tres protocolos. `anexo_p2.html` expone el experimento de PsychoPy, el script de limpieza y las tablas antes y después.
+Cada módulo presenta fundamentos, diseño, datos y discusión. `conclusiones.html` integra los tres protocolos. `anexo_p2.html` muestra el experimento de PsychoPy, el script de limpieza y las tablas antes y después.
 
 ### 🌳 Estructura
 
@@ -86,7 +85,7 @@ Los scripts no generan contenido teórico: solo grafican datos, construyen el an
 
 ### 🧹 Criterios de limpieza del P2
 
-El CSV crudo de PsychoPy tiene 22 filas. Se conservaron **19 ensayos** y se descartaron 3: las filas de inicio y despedida, y un ensayo con RT de 1151 ms, fuera del rango acordado de **150-1000 ms**.
+El CSV crudo de PsychoPy tiene 22 filas. Se conservaron **19 ensayos** y se descartaron 3: las filas de inicio y despedida, y un ensayo con RT de 1151 ms, fuera del rango definido de **150-1000 ms**.
 
 | Condición | n | Media | Mediana | DE |
 | --- | ---: | ---: | ---: | ---: |
@@ -95,22 +94,20 @@ El CSV crudo de PsychoPy tiene 22 filas. Se conservaron **19 ensayos** y se desc
 
 La diferencia observada, **+57,2 ms a favor del visual**, es inversa a lo habitual en la literatura y se discute como tal en el módulo 2. Los números no fueron reescritos para ajustarlos a la expectativa teórica.
 
-### 🤖 Uso de asistencia de IA
+### 🤖 Uso de IA
 
-- **Código:** el script de limpieza del P2 (`datos/limpiar_datos_p2.py`) y sus docstrings fueron generados con asistencia de IA, y luego **revisados, ejecutados y verificados por el estudiante** contra el CSV real.
-- **No delegado a la IA:** la recolección de los datos, el diseño de los experimentos, la definición del umbral de 150-1000 ms, la interpretación de los resultados y la aprobación final de los textos.
-
-> La declaración correspondiente a la entrega académica permanece en el PDF reglamentario y no fue modificada.
+- **Código:** el script de limpieza del P2 (`datos/limpiar_datos_p2.py`) y sus docstrings fueron generados con asistencia de IA y luego **revisados, ejecutados y verificados** contra el CSV real.
+- **Sin asistencia de IA:** diseño de los experimentos, recolección de datos, definición del umbral de 150-1000 ms e interpretación de los resultados.
 
 ### 🔒 Privacidad
 
-Los archivos publicados son copias anonimizadas: el identificador original del participante se reemplazó por `Participante_01` y las rutas locales se cambiaron por rutas relativas. **Ningún valor empírico fue modificado**. Los originales sin anonimizar y el PDF con datos personales permanecen fuera del repositorio.
+Los archivos publicados son copias anonimizadas: el identificador original del participante se reemplazó por `Participante_01` y las rutas locales se cambiaron por rutas relativas. **Ningún valor empírico fue modificado**. Los originales sin anonimizar permanecen fuera del repositorio.
 
 ### ✍️ Autoría
 
-Teófilo Angulo · Universidad Bicentenaria de Aragua.
+Teófilo Angulo.
 
-Uso académico. Pedir autorización antes de reutilizar los datos o el diseño experimental.
+Pedir autorización antes de reutilizar los datos o el diseño experimental.
 
 ---
 
@@ -118,17 +115,16 @@ Uso académico. Pedir autorización antes de reutilizar los datos o el diseño e
 
 ## 🇬🇧 English
 
-> 🌐 **Published site:** https://neuroportafolio.vercel.app/
+> 🌐 **Site:** https://neuroportafolio.vercel.app/
 >
-> This repository holds the **source code** for the site. Vercel hosts the link submitted with the assignment. The official PDF is not included here because it contains personal data.
+> This repository contains the static site, the PsychoPy experiment files and the code that generates the plots, tables and annex from the data.
 
 ### ✨ At a glance
 
 | | |
 | --- | --- |
-| 🧪 Assignment | Summative Activity No. 4 · Unit IV |
-| 🧠 Protocols | 3: tactile discrimination, reaction time and visual afterimage |
-| 👥 Sample | N = 1 per protocol; the student acted as both participant and experimenter |
+| 🧪 Projects | 3: tactile discrimination, reaction time and visual afterimage |
+| 👥 Sample | N = 1 per protocol |
 | 📊 Data | anonymised copies; no empirical value was changed |
 | 🔁 Reproducible | plots, annex and tables can be regenerated from the data |
 
@@ -140,7 +136,7 @@ Uso académico. Pedir autorización antes de reutilizar los datos o el diseño e
 | `modulo2.html` | Reaction time | Visual and auditory RT, in ms | Visual 446.0 ms · Auditory 503.2 ms |
 | `modulo3.html` | Flash afterimage | Afterimage duration, in s | Mean 6.0 s · SD 3.7 s |
 
-Each module follows the four rubric blocks: neurophysiological background, methodological design and sample, tables and plot, and discussion. `conclusiones.html` integrates the three protocols. `anexo_p2.html` shows the PsychoPy experiment, the cleaning script and the before/after tables.
+Each module presents background, design, data and discussion. `conclusiones.html` integrates the three protocols. `anexo_p2.html` shows the PsychoPy experiment, the cleaning script and the before/after tables.
 
 ### 🌳 Structure
 
@@ -183,7 +179,7 @@ The scripts do not generate theoretical content: they only plot data, build the 
 
 ### 🧹 P2 cleaning criteria
 
-The raw PsychoPy CSV has 22 rows. **19 trials** were kept and 3 were discarded: the welcome and farewell rows, and one trial with an RT of 1151 ms, outside the agreed **150-1000 ms** range.
+The raw PsychoPy CSV has 22 rows. **19 trials** were kept and 3 were discarded: the welcome and farewell rows, and one trial with an RT of 1151 ms, outside the defined **150-1000 ms** range.
 
 | Condition | n | Mean | Median | SD |
 | --- | ---: | ---: | ---: | ---: |
@@ -192,22 +188,20 @@ The raw PsychoPy CSV has 22 rows. **19 trials** were kept and 3 were discarded: 
 
 The observed difference, **+57.2 ms in favour of the visual condition**, is the reverse of the usual finding in the literature and is discussed as such in module 2. The numbers were not rewritten to fit the theoretical expectation.
 
-### 🤖 AI assistance
+### 🤖 AI use
 
-- **Code:** the P2 cleaning script (`datos/limpiar_datos_p2.py`) and its docstrings were generated with AI assistance and then **reviewed, run and verified by the student** against the actual CSV.
-- **Not delegated to AI:** data collection, experiment design, the 150-1000 ms threshold, interpretation of the results and final approval of the texts.
-
-> The declaration for the academic submission remains in the official PDF and was not changed.
+- **Code:** the P2 cleaning script (`datos/limpiar_datos_p2.py`) and its docstrings were generated with AI assistance and then **reviewed, run and verified** against the actual CSV.
+- **Without AI assistance:** experiment design, data collection, the 150-1000 ms threshold and interpretation of the results.
 
 ### 🔒 Privacy
 
-The published files are anonymised copies: the original participant identifier was replaced with `Participante_01` and local paths were changed to relative paths. **No empirical value was modified**. The unanonymised originals and the PDF containing personal data remain outside the repository.
+The published files are anonymised copies: the original participant identifier was replaced with `Participante_01` and local paths were changed to relative paths. **No empirical value was modified**. The unanonymised originals remain outside the repository.
 
 ### ✍️ Authorship
 
-Teófilo Angulo · Universidad Bicentenaria de Aragua.
+Teófilo Angulo.
 
-Academic use only. Please ask for permission before reusing the data or the experimental design.
+Please ask for permission before reusing the data or the experimental design.
 
 ---
 
