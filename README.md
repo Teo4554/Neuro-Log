@@ -99,15 +99,9 @@ La diferencia observada, **+57,2 ms a favor del visual**, es inversa a lo habitu
 - **Código:** el script de limpieza del P2 (`datos/limpiar_datos_p2.py`) y sus docstrings fueron generados con asistencia de IA y luego **revisados, ejecutados y verificados** contra el CSV real.
 - **Sin asistencia de IA:** diseño de los experimentos, recolección de datos, definición del umbral de 150-1000 ms e interpretación de los resultados.
 
-### 🔒 Privacidad
-
-Los archivos publicados son copias anonimizadas: el identificador original del participante se reemplazó por `Participante_01` y las rutas locales se cambiaron por rutas relativas. **Ningún valor empírico fue modificado**. Los originales sin anonimizar permanecen fuera del repositorio.
-
 ### ✍️ Autoría
 
 Teófilo Angulo.
-
-Pedir autorización antes de reutilizar los datos o el diseño experimental.
 
 ---
 
@@ -193,15 +187,9 @@ The observed difference, **+57.2 ms in favour of the visual condition**, is the 
 - **Code:** the P2 cleaning script (`datos/limpiar_datos_p2.py`) and its docstrings were generated with AI assistance and then **reviewed, run and verified** against the actual CSV.
 - **Without AI assistance:** experiment design, data collection, the 150-1000 ms threshold and interpretation of the results.
 
-### 🔒 Privacy
-
-The published files are anonymised copies: the original participant identifier was replaced with `Participante_01` and local paths were changed to relative paths. **No empirical value was modified**. The unanonymised originals remain outside the repository.
-
 ### ✍️ Authorship
 
 Teófilo Angulo.
-
-Please ask for permission before reusing the data or the experimental design.
 
 ---
 
